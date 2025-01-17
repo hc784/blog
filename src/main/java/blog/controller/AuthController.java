@@ -18,7 +18,7 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     
-    @GetMapping("/loginMain")
+    @GetMapping("/")
     public String loginMainPage() {
         return "loginMain"; 
     }
