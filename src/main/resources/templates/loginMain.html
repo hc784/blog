@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Welcome</title>
+</head>
+<body>
+    <header>
+        <!-- 로그인한 사용자에게만 표시 -->
+        <p th:if="${#authentication.name != 'anonymousUser'}">
+            Welcome, <span th:text="${#authentication.name}"></span>!
+            <a th:href="@{/logout}">Logout</a>
+        </p>
+
+        <!-- 비로그인 사용자에게만 표시 -->
+        <p th:if="${#authentication.name == 'anonymousUser'}">
+            Welcome, Guest!
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/register}">Register</a>
+        </p>
+    </header>
+
+    <main>
+        <h1>Homepage</h1>
+        <p>This is a public page accessible to everyone.</p>
+    </main>
+</body>
+</html>
