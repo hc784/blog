@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import blog.model.User;
 import blog.repository.UserRepository;
+import blog.security.PrincipalDetails;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -21,12 +22,12 @@ public class CustomUserDetailsService implements UserDetailsService {
         // Optional 사용하여 null 처리
        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-
+       PrincipalDetails principalDetails = new PrincipalDetails(user);
         // 활성화 여부 체크
-        if (!user.isEnabled()) {
+        if (!principalDetails.isEnabled()) {
             throw new IllegalStateException("Account is disabled");
         }
 
-        return user; // CustomUser가 UserDetails를 구현하므로 바로 반환 가능
+        return principalDetails; // CustomUser가 UserDetails를 구현하므로 바로 반환 가능
     }
 }

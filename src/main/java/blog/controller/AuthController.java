@@ -37,7 +37,8 @@ public class AuthController {
     public String register( @RequestParam("username") String username,
     	    @RequestParam("password") String password,
     	    @RequestParam("email") String email,
-    	    @RequestParam("confirmPassword") String confirmPassword, Model model) {
+    	    @RequestParam("confirmPassword") String confirmPassword,
+    	    @RequestParam("nickbame") String nickname,  Model model) {
         // 입력값 검증
         if (!password.equals(confirmPassword)) {
             model.addAttribute("error", "Passwords do not match");
@@ -75,6 +76,7 @@ public class AuthController {
         user.setUsername(username);
         user.setPassword(encodedPassword);
         user.setEmail(email);
+        user.setNickname(nickname);
         user.setRole("ROLE_USER");
         user.setActive(true); // 활성화 상태
         userRepository.save(user);

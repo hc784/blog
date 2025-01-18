@@ -59,18 +59,17 @@
             <form th:action="@{/login}" method="post">
               <div class="text-center mb-3">
                 <p>Sign in with:</p>
-                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-                  <i class="fab fa-facebook-f"></i>
+                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1"
+                onclick="location.href='/oauth2/authorization/naver'">
+                  <img src="img/naver.png" alt="Twitter Login" class="img-fluid rounded-circle" style="width: 25px; height: 25px;">
                 </button>
-                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-                  <i class="fab fa-google"></i>
+                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1"
+                  onclick="location.href='/oauth2/authorization/google'">
+                  <img src="img/google.png" alt="Twitter Login" class="img-fluid rounded-circle" style="width: 25px; height: 25px;">
                 </button>
-                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-                  <i class="fab fa-twitter"></i>
-                </button>
-                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-                  <i class="fab fa-github"></i>
-                </button>
+                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1"
+                onclick="location.href='/oauth2/authorization/kakao'">
+                  <img src="img/kakao.png" alt="Twitter Login" class="img-fluid rounded-circle" style="width: 25px; height: 25px;">
               </div>
 
               <p class="text-center">or:</p>
