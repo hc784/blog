@@ -35,3 +35,11 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# Ignore Spring Boot configuration files
+application.properties
+application.yml
+
+# Ignore profile-specific configurations
+application-*.properties
+application-*.yml

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -56,7 +56,7 @@
         <!-- Pills content -->
         <div class="tab-content">
           <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
-            <form>
+            <form th:action="@{/login}" method="post">
               <div class="text-center mb-3">
                 <p>Sign in with:</p>
                 <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
@@ -77,13 +77,13 @@
 
               <!-- Email input -->
               <div data-mdb-input-init class="form-outline mb-4">
-                <input type="email" id="loginName" class="form-control" />
-                <label class="form-label" for="loginName">Email or username</label>
+                <input type="text" name = "username" id="loginName" class="form-control" required />
+                <label class="form-label" for="loginName">Username</label>
               </div>
 
               <!-- Password input -->
               <div data-mdb-input-init class="form-outline mb-4">
-                <input type="password" id="loginPassword" class="form-control" />
+                <input type="password" id="loginPassword" name="password" class="form-control" required />
                 <label class="form-label" for="loginPassword">Password</label>
               </div>
 
@@ -104,16 +104,15 @@
               </div>
 
               <!-- Submit button -->
-              <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Sign in</button>
-
+              <button type="submit" data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Sign in</button>
+			</form>
               <!-- Register buttons -->
               <div class="text-center">
                 <p>Not a member? <a href="#!">Register</a></p>
               </div>
-            </form>
           </div>
           <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
-            <form>
+            <form th:action="@{/register}" method="post">
               <div class="text-center mb-3">
                 <p>Sign up with:</p>
                 <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
@@ -134,31 +133,31 @@
 
               <!-- Name input -->
               <div data-mdb-input-init class="form-outline mb-4">
-                <input type="text" id="registerName" class="form-control" />
+                <input type="text" name="name" id="registerName" class="form-control" required/>
                 <label class="form-label" for="registerName">Name</label>
               </div>
 
               <!-- Username input -->
               <div data-mdb-input-init class="form-outline mb-4">
-                <input type="text" id="registerUsername" class="form-control" />
+                <input type="text" name="username" id="registerUsername" class="form-control" required/>
                 <label class="form-label" for="registerUsername">Username</label>
               </div>
 
               <!-- Email input -->
               <div data-mdb-input-init class="form-outline mb-4">
-                <input type="email" id="registerEmail" class="form-control" />
+                <input type="email" name="email" id="registerEmail" class="form-control" required/>
                 <label class="form-label" for="registerEmail">Email</label>
               </div>
 
               <!-- Password input -->
               <div data-mdb-input-init class="form-outline mb-4">
-                <input type="password" id="registerPassword" class="form-control" />
+                <input type="password" name="password" id="registerPassword" class="form-control" required/>
                 <label class="form-label" for="registerPassword">Password</label>
               </div>
 
               <!-- Repeat Password input -->
               <div data-mdb-input-init class="form-outline mb-4">
-                <input type="password" id="registerRepeatPassword" class="form-control" />
+                <input type="password" name="confirmPassword" id="registerRepeatPassword" class="form-control" required />
                 <label class="form-label" for="registerRepeatPassword">Repeat password</label>
               </div>
 
@@ -171,7 +170,7 @@
               </div>
 
               <!-- Submit button -->
-              <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-3">Sign up</button>
+              <button type="submit" data-mdb-ripple-init class="btn btn-primary btn-block mb-3">Sign up</button>
             </form>
           </div>
         </div>

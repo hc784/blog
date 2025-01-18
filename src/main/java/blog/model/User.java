@@ -20,7 +20,10 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private String role;
-
+    
+    // 추가적인 OAuth 필드
+    private String provider;    // OAuth 제공자 (e.g., google, naver)
+    private String providerId;  // OAuth 제공자에서 사용하는 사용자 ID
     // 추가적인 비즈니스 필드
     private String email;
     private boolean active;

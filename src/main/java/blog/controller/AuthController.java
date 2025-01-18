@@ -39,7 +39,6 @@ public class AuthController {
     	    @RequestParam("email") String email,
     	    @RequestParam("confirmPassword") String confirmPassword, Model model) {
         // 입력값 검증
-    	
         if (!password.equals(confirmPassword)) {
             model.addAttribute("error", "Passwords do not match");
             return "register";
