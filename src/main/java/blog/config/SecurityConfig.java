@@ -6,7 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import blog.service.CustomOAuth2UserService;
+import blog.security.service.CustomOAuth2UserService;
 
 @Configuration
 public class SecurityConfig {

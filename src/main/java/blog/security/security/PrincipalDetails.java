@@ -1,6 +1,7 @@
-package blog.security;
+package blog.security.security;
 
-import blog.model.User;
+import blog.security.model.User;
+import blog.security.oauth.OAuth2UserInfo;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,9 +15,11 @@ import java.util.Map;
 @Getter
 @Setter
 public class PrincipalDetails implements UserDetails, OAuth2User {
-
+	
+    private static final long serialVersionUID = 1L;  // 직렬화 ID 추가
+    
     private User user; // User 엔티티
-    private Map<String, Object> attributes; // OAuth2 사용자 정보
+    private OAuth2UserInfo oAuth2UserInfo; // OAuth2 사용자 정보 인터페이스
 
     // 생성자 (기본 로그인)
     public PrincipalDetails(User user) {
@@ -24,9 +27,9 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     }
 
     // 생성자 (OAuth2 로그인)
-    public PrincipalDetails(User user, Map<String, Object> attributes) {
+    public PrincipalDetails(User user, OAuth2UserInfo oAuth2UserInfo) {
         this.user = user;
-        this.attributes = attributes;
+        this.oAuth2UserInfo = oAuth2UserInfo;
     }
 
     // UserDetails 인터페이스 구현
@@ -68,11 +71,23 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     // OAuth2User 인터페이스 구현
     @Override
     public Map<String, Object> getAttributes() {
-        return attributes;
+        return oAuth2UserInfo.getAttributes();
     }
 
     @Override
     public String getName() {
-        return user.getUsername(); // 적절한 사용자 식별자를 반환
+        return oAuth2UserInfo.getName(); // 제공자의 사용자 이름 반환
+    }
+
+    public String getEmail() {
+        return oAuth2UserInfo.getEmail();
+    }
+
+    public String getProvider() {
+        return oAuth2UserInfo.getProvider();
+    }
+
+    public String getProviderId() {
+        return oAuth2UserInfo.getProviderId();
     }
 }

@@ -1,12 +1,12 @@
-package blog.service;
+package blog.security.service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import blog.model.User;
-import blog.repository.UserRepository;
-import blog.security.PrincipalDetails;
+import blog.security.model.User;
+import blog.security.repository.UserRepository;
+import blog.security.security.PrincipalDetails;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

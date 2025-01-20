@@ -5,8 +5,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import blog.model.User;
-import blog.repository.UserRepository;
+import blog.security.model.User;
+import blog.security.repository.UserRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

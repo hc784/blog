@@ -1,4 +1,5 @@
-package blog.service;
+package blog.security.service;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -6,8 +7,13 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import blog.model.User;
-import blog.repository.UserRepository;
+import blog.security.model.User;
+import blog.security.oauth.GoogleUserInfo;
+import blog.security.oauth.KakaoUserInfo;
+import blog.security.oauth.NaverUserInfo;
+import blog.security.oauth.OAuth2UserInfo;
+import blog.security.repository.UserRepository;
+import blog.security.security.PrincipalDetails;
 import jakarta.servlet.http.HttpSession;
 
 
@@ -24,16 +30,23 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) {
         OAuth2User oAuth2User = super.loadUser(userRequest);
-
+        OAuth2UserInfo oAuth2UserInfo = null;
         String provider = userRequest.getClientRegistration().getRegistrationId(); // google, naver 등
-        String providerId = oAuth2User.getName(); // 제공자의 고유 ID
-        String email = oAuth2User.getAttributes().get("email").toString(); // 사용자 이메일
-        String name = oAuth2User.getAttributes().get("name").toString();  // 사용자 이름
-
+        System.out.println(oAuth2User.getAttributes());
+        System.out.println(provider);
+        if (provider.equals("google")) {
+            oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+        } else if (provider.equals("kakao")) {
+        	oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
+        } else if (provider.equals("naver")) {
+        	oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttributes());
+        } else {
+            System.out.println("로그인 실패");
+        }
         // DB에 사용자 저장 또는 업데이트
-        User user = saveOrUpdateUser(provider, providerId, email, name);
+        User user = saveOrUpdateUser(provider, oAuth2UserInfo.getProviderId(), oAuth2UserInfo.getEmail(),oAuth2UserInfo.getName());
 
-        return oAuth2User;
+        return new PrincipalDetails(user,oAuth2UserInfo);
     }
 
     private User saveOrUpdateUser(String provider, String providerId, String email, String name) {

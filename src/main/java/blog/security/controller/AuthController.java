@@ -1,4 +1,4 @@
-package blog.controller;
+package blog.security.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import blog.model.User;
-import blog.repository.UserRepository;
+import blog.security.model.User;
+import blog.security.repository.UserRepository;
 @Controller
 public class AuthController {
 
@@ -77,10 +77,10 @@ public class AuthController {
         user.setPassword(encodedPassword);
         user.setEmail(email);
         user.setNickname(nickname);
-        user.setRole("ROLE_USER");
+        user.setRole("USER");
         user.setActive(true); // 활성화 상태
         userRepository.save(user);
-
+        
         return "redirect:/login"; // 회원가입 후 로그인 페이지로 이동
     }
 }

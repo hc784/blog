@@ -1,4 +1,4 @@
-package blog.model;
+package blog.security.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

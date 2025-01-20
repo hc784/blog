@@ -9,6 +9,7 @@
         <p th:if="${#authentication.name != 'anonymousUser'}">
             Welcome, <span th:text="${#authentication.name}"></span>!
             <a th:href="@{/logout}">Logout</a>
+            <a th:href="@{/profile}">Profile</a>
         </p>
 
         <!-- 비로그인 사용자에게만 표시 -->
