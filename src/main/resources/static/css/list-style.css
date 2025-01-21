@@ -1,0 +1,97 @@
+/* 전체 레이아웃 설정 */
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* 컨테이너 */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 헤더 스타일 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.header .logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* 본문 스타일 */
+.content {
+  margin: 40px 0;
+}
+
+.post-title {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.post-meta {
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.post-content {
+  line-height: 1.8;
+  font-size: 18px;
+}
+
+/* 태그 스타일 */
+.tags {
+  margin-top: 20px;
+}
+
+.tag {
+  background-color: #e1e1e1;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  margin-right: 5px;
+}
+
+/* 댓글 섹션 */
+.comments {
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+}
+
+.comments h3 {
+  font-size: 24px;
+}
+
+.comments p {
+  font-size: 16px;
+}
+
+/* 푸터 스타일 */
+.footer {
+  text-align: center;
+  padding: 20px 0;
+  border-top: 1px solid #ddd;
+}

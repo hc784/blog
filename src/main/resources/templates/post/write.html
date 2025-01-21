@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>  
+    <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Starter Page - ZenBlog Bootstrap Template</title>
+<div th:replace="partials/head"></div>
+
+<body class="write-post-page">
+
+<div th:replace="partials/header"></div>
+
+  <!-- Page Title -->
+  <div class="page-title">
+    <div class="container d-lg-flex justify-content-between align-items-center">
+      <h1 class="mb-2 mb-lg-0">Write a New Post</h1>
+      <nav class="breadcrumbs">
+        <ol>
+          <li><a href="index.html">Home</a></li>
+          <li class="current">Write a Post</li>
+        </ol>
+      </nav>
+    </div>
+  </div><!-- End Page Title -->
+
+  <main class="main">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+          <section id="write-post" class="write-post section">
+            <div class="container">
+
+              <form action="/posts/create" method="POST">
+
+                <div class="form-group mb-3">
+                  <label for="title" class="form-label"><strong>Title</strong></label>
+                  <input type="text" class="form-control" id="title" name="title" placeholder="Enter your post title" required>
+                </div>
+
+                <div class="form-group mb-3">
+                  <label for="category" class="form-label"><strong>Category</strong></label>
+                  <select class="form-control" id="category" name="category" required>
+                    <option value="">Select Category</option>
+                    <option value="business">Business</option>
+                    <option value="technology">Technology</option>
+                    <option value="lifestyle">Lifestyle</option>
+                    <option value="entertainment">Entertainment</option>
+                  </select>
+                </div>
+
+                <div class="form-group mb-3">
+                  <label for="content" class="form-la	bel"><strong>Content</strong></label>
+                  <textarea class="form-control" id="content" name="content" rows="10" placeholder="Write your content here..." required></textarea>
+                </div>
+
+                <div class="form-group mb-3">
+                  <label for="image" class="form-label"><strong>Upload Image</strong></label>
+                  <input type="file" class="form-control" id="image" name="image">
+                </div>
+
+                <div class="text-center mt-4">
+                  <button type="submit" class="btn btn-primary">Publish Post</button>
+                </div>
+
+              </form>
+
+            </div>
+          </section><!-- /Write Post Section -->
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+<div th:replace="partials/footer"></div>
+</body>
+
+</html>

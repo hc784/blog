@@ -10,12 +10,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping("/posts")
-public class PostController { 
+@RequestMapping("/temp")
+public class PostControllerTmep { 
 
     private final PostService postService;
 
-    public PostController(PostService postService) {
+    public PostControllerTmep(PostService postService) {
         this.postService = postService;
     }
 
@@ -23,7 +23,7 @@ public class PostController {
     // 글 작성 페이지를 보여줌 (뷰 렌더링)
     @GetMapping("/create")
     public String showCreatePostForm() {
-        return "post/write";  // post-form.html로 이동
+        return "temp/post-form";  // post-form.html로 이동
     }
 
     // 글 작성 처리
@@ -40,7 +40,7 @@ public class PostController {
     public String getAllPosts(Model model) {
         List<Post> posts = postService.getAllPosts();
         model.addAttribute("posts", posts);
-        return "post/category";  // post-list.html 렌더링
+        return "temp/post-list";  // post-list.html 렌더링
     }
 
     // 특정 게시글 상세 페이지
@@ -48,7 +48,7 @@ public class PostController {
     public String getPostById(@PathVariable Long id, Model model) {
         Post post = postService.getPostById(id);
         model.addAttribute("post", post);
-        return "post/detail";  // post-detail.html 렌더링
+        return "temp/post-detail";  // post-detail.html 렌더링
     }
     
     // 게시글 수정 페이지를 보여줌
