@@ -1,0 +1,64 @@
+
+/* 카테고리 위젯 스타일 */
+.categories-widget {
+  background-color: var(--surface-color);
+  border-radius: 5px;
+  padding: 30px;
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.categories-widget .widget-title {
+  font-size: 20px;
+  font-weight: 600;
+  padding: 0 0 0 10px;
+  margin: 0 0 20px 0;
+  border-left: 4px solid var(--accent-color);
+  color: var(--heading-color);
+}
+
+.categories-widget .category-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.categories-widget .category-list li {
+  margin-bottom: 10px;
+}
+
+.categories-widget .category-list a {
+  color: color-mix(in srgb, var(--default-color), transparent 30%);
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.categories-widget .category-list a:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+.categories-widget .sub-category-list {
+  list-style: none;
+  padding-left: 20px;
+  margin-top: 5px;
+  border-left: 2px solid color-mix(in srgb, var(--default-color), transparent 90%);
+}
+
+.categories-widget .sub-category-list li {
+  margin-bottom: 8px;
+}
+
+.categories-widget .sub-category-list a {
+  font-size: 14px;
+  color: color-mix(in srgb, var(--default-color), transparent 50%);
+}
+
+.categories-widget .sub-category-list a:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+

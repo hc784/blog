@@ -1,0 +1,42 @@
+ <form action="#" th:action="@{${isEdit} ? '/posts/edit/' + ${post.id} : '/posts/create'}" th:object="${post}" method="post">
+
+  <div class="form-group mb-3">
+    <label for="title" class="form-label"><strong>Title</strong></label>
+    <input type="text" class="form-control" th:field="*{title}" placeholder="Enter your post title" required>
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="category" class="form-label"><strong>Category</strong></label>
+    <select class="form-control" id="categoryId" name="categoryId" required>
+		<option value="">Select Category</option>
+		<th:block th:each="category : ${categories}">
+	  		<option th:value="${category.id}" 
+			        th:text="${category.name}"/>
+	        	<!-- 하위 카테고리 -->
+	        	<th:block th:if="${category.children != null and #lists.size(category.children) > 0}">
+			        <option th:each="child : ${category.children}"
+			                th:value="${child.id}" 
+			                th:text="'|--'+${child.name}">
+			        </option>
+			    </th:block>
+		</th:block>
+    	
+        
+    </select>
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="content" class="form-la	bel"><strong>Content</strong></label>
+    <textarea class="form-control" th:field="*{content}" rows="10" placeholder="Write your content here..." required></textarea>
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="image" class="form-label"><strong>Upload Image</strong></label>
+    <input type="file" class="form-control" id="image" name="image">
+  </div>
+
+  <div class="text-center mt-4">
+    <button type="submit" class="btn btn-primary">Publish Post</button>
+  </div>
+
+</form>

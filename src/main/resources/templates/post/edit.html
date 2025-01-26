@@ -4,6 +4,7 @@
     <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Starter Page - ZenBlog Bootstrap Template</title>
+  
 <div th:replace="partials/head"></div>
 </head>
 <body class="write-post-page">
@@ -31,7 +32,7 @@
           <section id="write-post" class="write-post section">
             <div class="container">
 
-             <div th:replace="~{post/_postForm (post=${post}, isEdit=false)}"></div>
+             <div th:replace="~{post/_postForm :: form (post=${post}, isEdit=true)}"></div>
              
             </div>
           </section><!-- /Write Post Section -->

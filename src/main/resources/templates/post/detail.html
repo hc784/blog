@@ -6,7 +6,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Single Post - ZenBlog Bootstrap Template</title>
  <div th:replace="partials/head"></div>
-
+</head>
 <body class="single-post-page">
 
  <div th:replace="partials/header"></div>
@@ -68,7 +68,22 @@
                     <li><a href="#">Marketing</a></li>
                   </ul>
                 </div><!-- End meta bottom -->
-
+				
+				
+				 <!-- Edit and Delete Buttons -->
+<div class="post-actions mt-4 d-flex gap-3">
+  <a th:href="@{/posts/edit/{id}(id=${post.id})}" class="btn btn-outline-secondary btn-sm d-flex align-items-center">
+    <i class="bi bi-pencil-square me-2"></i> 수정
+  </a>
+<form th:action="@{/posts/delete/{id}(id=${post.id})}" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
+  <input type="hidden" name="_method" value="delete">
+  <button type="submit" class="btn btn-outline-danger btn-sm d-flex align-items-center">
+    <i class="bi bi-trash me-2"></i> 삭제
+  </button>
+</form>
+  
+  
+</div>
               </article>
 
             </div>
@@ -87,10 +102,7 @@
                   <div>
                     <h5><a href="">Georgia Reader</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
                     <time datetime="2020-01-01">01 Jan,2022</time>
-                    <p>
-                      Et rerum totam nisi. Molestiae vel quam dolorum vel voluptatem et et. Est ad aut sapiente quis molestiae est qui cum soluta.
-                      Vero aut rerum vel. Rerum quos laboriosam placeat ex qui. Sint qui facilis et.
-                    </p>
+
                   </div>
                 </div>
               </div><!-- End comment #1 -->
@@ -101,9 +113,6 @@
                   <div>
                     <h5><a href="">Aron Alvarado</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
                     <time datetime="2020-01-01">01 Jan,2022</time>
-                    <p>
-                      Ipsam tempora sequi voluptatem quis sapiente non. Autem itaque eveniet saepe. Officiis illo ut beatae.
-                    </p>
                   </div>
                 </div>
 
@@ -113,13 +122,6 @@
                     <div>
                       <h5><a href="">Lynda Small</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
                       <time datetime="2020-01-01">01 Jan,2022</time>
-                      <p>
-                        Enim ipsa eum fugiat fuga repellat. Commodi quo quo dicta. Est ullam aspernatur ut vitae quia mollitia id non. Qui ad quas nostrum rerum sed necessitatibus aut est. Eum officiis sed repellat maxime vero nisi natus. Amet nesciunt nesciunt qui illum omnis est et dolor recusandae.
-
-                        Recusandae sit ad aut impedit et. Ipsa labore dolor impedit et natus in porro aut. Magnam qui cum. Illo similique occaecati nihil modi eligendi. Pariatur distinctio labore omnis incidunt et illum. Expedita et dignissimos distinctio laborum minima fugiat.
-
-                        Libero corporis qui. Nam illo odio beatae enim ducimus. Harum reiciendis error dolorum non autem quisquam vero rerum neque.
-                      </p>
                     </div>
                   </div>
 
@@ -129,10 +131,7 @@
                       <div>
                         <h5><a href="">Sianna Ramsay</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
                         <time datetime="2020-01-01">01 Jan,2022</time>
-                        <p>
-                          Et dignissimos impedit nulla et quo distinctio ex nemo. Omnis quia dolores cupiditate et. Ut unde qui eligendi sapiente omnis ullam. Placeat porro est commodi est officiis voluptas repellat quisquam possimus. Perferendis id consectetur necessitatibus.
-                        </p>
-                      </div>
+                            </div>
                     </div>
 
                   </div><!-- End comment reply #2-->
@@ -329,5 +328,12 @@
   </main>
 
 <div th:replace="partials/footer"></div>
-
+    <script>
+        function confirmDelete() {
+          if (confirm('정말로 삭제하시겠습니까?')) {
+            // 삭제 처리 로직
+            alert('게시글이 삭제되었습니다.');
+          }
+        }
+      </script>
 </html>

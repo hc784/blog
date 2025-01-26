@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>카테고리 목록</title>
+    <style>
+        ul {
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>카테고리 목록</h1>
+    <ul>
+        <li th:each="category : ${categories}">
+            <span th:text="${category.name}">카테고리 이름</span>
+            <!-- 하위 카테고리 목록 표시 -->
+            <ul th:if="${category.children != null and category.children.size() > 0}">
+                <li th:each="child : ${category.children}" th:text="${child.name}"></li>
+            </ul>
+        </li>
+    </ul>
+</body>
+</html>
