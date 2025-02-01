@@ -26,5 +26,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT p FROM Post p WHERE p.category.id = :categoryId OR p.category.parent.id = :categoryId")
     List<Post> findPostsByCategoryOrChildren(Long categoryId);
     
+    // 특정 카테고리 또는 자식 카테고리 포함한 게시글 페이징 조회
+    @Query("SELECT p FROM Post p WHERE p.category.id = :categoryId OR p.category.parent.id = :categoryId")
+    Page<Post> findPostsByCategoryOrChildren(Long categoryId, Pageable pageable);
+    
     int countByCategoryIdIn(List<Long> categoryIds);
 }

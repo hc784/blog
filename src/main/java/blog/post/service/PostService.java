@@ -41,8 +41,15 @@ public class PostService {
     
     public Page<Post> getPaginatedPosts(int page, int size) {
     	int maxSize = Math.min(size, 50);
-        Pageable pageable = PageRequest.of(page - 1, maxSize, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(page, maxSize, Sort.by("createdAt").descending());
         return postRepository.findAll(pageable);
+    }
+    
+    // 특정 카테고리 또는 자식 카테고리 포함한 게시글 페이징 조회
+    public Page<Post> getPaginatedPostsByCategory(Long categoryId, int page, int size) {
+    	int maxSize = Math.min(size, 50);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        return postRepository.findPostsByCategoryOrChildren(categoryId, pageable);
     }
     
     public void updatePost(Long id, String title, String content) {

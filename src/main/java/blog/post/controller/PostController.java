@@ -5,6 +5,8 @@ import blog.post.model.Category;
 import blog.post.model.Post;
 import blog.post.service.CategoryService;
 import blog.post.service.PostService;
+
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,29 +44,51 @@ public class PostController {
         return "redirect:/posts/" + post.getId();  // 글 상세 페이지로 리다이렉트
     }
 
-    // 전체 게시글 목록 페이지
-    @GetMapping
-    public String getAllPosts(Model model, @RequestParam(value = "category_id", required = false) Long categoryId) {
-        List<Post> posts;
-        if (categoryId == null) {
-            posts = postService.getAllPosts();
-        } else {
-            posts = postService.findByCategoryIdOrChild(categoryId);
-        }
-        List<Category> categories = categoryService.getTopLevelCategories();
-        model.addAttribute("categories", categories);
-        model.addAttribute("posts", posts);
-        return "post/category";
-    }
-
+//    // 전체 게시글 목록 페이지
 //    @GetMapping
-//    public String getAllPosts(Model model,
-//    		@RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "10") int size) {
-//        Page<Post> posts = postService.getPaginatedPosts(page,size);
+//    public String getAllPosts(Model model, @RequestParam(value = "category_id", required = false) Long categoryId) {
+//        List<Post> posts;
+//        if (categoryId == null) {
+//            posts = postService.getAllPosts();
+//        } else {
+//            posts = postService.findByCategoryIdOrChild(categoryId);
+//        }
+//        List<Category> categories = categoryService.getTopLevelCategories();
+//        model.addAttribute("categories", categories);
 //        model.addAttribute("posts", posts);
-//        return "post/category";  // post-list.html 렌더링
+//        return "post/category";
 //    }
+
+    @GetMapping
+    public String getAllPosts(Model model,
+    		@RequestParam(value = "category_id", required = false) Long categoryId,
+    		@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+    	Page<Post> postPage;
+    	   
+        if (categoryId == null) {
+            postPage = postService.getPaginatedPosts(page, size);
+        } else {
+            postPage = postService.getPaginatedPostsByCategory(categoryId, page, size);
+        }
+
+        List<Category> categories = categoryService.getTopLevelCategories();
+        
+     // 블록 페이징 계산 (5개씩 출력)
+        int blockSize = 5;
+        int startPage = Math.max(0, (page / blockSize) * blockSize);
+        int endPage = Math.min(startPage + blockSize - 1, postPage.getTotalPages() - 1);
+        
+        model.addAttribute("categories", categories);
+        model.addAttribute("posts", postPage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", postPage.getTotalPages());
+        model.addAttribute("pageSize", size);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        
+        return "post/category";  // post-list.html 렌더링
+    }
     // 특정 게시글 상세 페이지
     @GetMapping("/{id}")
     public String getPostById(@PathVariable Long id, Model model) {

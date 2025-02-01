@@ -5,11 +5,11 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Starter Page - ZenBlog Bootstrap Template</title>
  <link rel="stylesheet" th:href="@{/css/category.css}">
-<div th:replace="partials/head"></div>
+<div th:replace="~{partials/head}"></div>
 </head>
 <body class="category-page">
 
-  <div th:replace="partials/header"></div>
+  <div th:replace="~{partials/header}"></div>
 
   <main class="main">
 
@@ -78,10 +78,45 @@
 
           <!-- Blog Pagination Section -->
           <section id="blog-pagination" class="blog-pagination section">
-
+			
             <div class="container">
               <div class="d-flex justify-content-center">
-                <ul>
+	             <ul>
+	               <!-- 첫 페이지 -->
+		            <li th:if="${currentPage >= 5}">
+		                <a th:href="@{/posts(page=0, size=${pageSize}, category_id=${param.category_id})}">
+		                	<i class="bi bi-chevron-double-left"></i> <!-- Bootstrap Icons -->
+		                </a>
+		            </li>
+		            
+	                <!-- 이전 블록 버튼 (한 번에 5페이지씩 이동)   -->
+	                <li th:if="${currentPage >= 5}"> 
+	                    <a th:href="@{/posts(page=${currentPage - 5}, size=${pageSize}, category_id=${param.category_id})}">
+	                        <i class="bi bi-chevron-left"></i>
+	                    </a>
+	                </li>
+	                
+	                <!-- 페이지 번호 출력 -->
+		            <li th:each="pageNum : ${#numbers.sequence(startPage, endPage)}">
+		                <a th:href="@{/posts(page=${pageNum}, size=${pageSize}, category_id=${param.category_id})}"
+		                   th:text="${pageNum + 1}"
+		                    th:classappend="${pageNum == currentPage} ? 'active'"></a>
+		            </li>
+
+	
+	                <!-- 다음 블록 버튼 -->
+	                <li th:if="${currentPage + 5 < totalPages}">
+	                    <a th:href="@{/posts(page=${currentPage + 5}, size=${pageSize}, category_id=${param.category_id})}">
+	                        <i class="bi bi-chevron-right"></i>
+	                    </a>
+	                </li>
+	                    <li th:if="${currentPage + 1 < totalPages}">
+					        <a th:href="@{/posts(page=${totalPages-1}, size=${pageSize}, category_id=${param.category_id})}">
+					            <i class="bi bi-chevron-double-right"></i> <!-- Bootstrap Icons -->
+					        </a>
+   						</li>
+	            </ul>
+<!--                 <ul>
                   <li><a href="#"><i class="bi bi-chevron-left"></i></a></li>
                   <li><a href="#">1</a></li>
                   <li><a href="#" class="active">2</a></li>
@@ -90,7 +125,7 @@
                   <li>...</li>
                   <li><a href="#">10</a></li>
                   <li><a href="#"><i class="bi bi-chevron-right"></i></a></li>
-                </ul>
+                </ul> -->
               </div>
             </div>
 
@@ -228,7 +263,7 @@
 
   </main>
 
-<div th:replace="partials/footer"></div>
+<div th:replace="~{partials/footer}"></div>
 </body>
 
 </html>
