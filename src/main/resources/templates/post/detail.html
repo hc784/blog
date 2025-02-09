@@ -88,126 +88,44 @@
 
             </div>
           </section><!-- /Blog Details Section -->
+<!-- Blog Comments Section -->
+<section id="blog-comments" class="blog-comments section">
+  <div class="container">
+    <h4 class="comments-count">댓글 <span id="comment-count">0</span></h4>
+    <!-- 댓글 목록이 표시될 영역 (기존 ul 대신 div 사용) -->
+    <div id="commentList">
+      <!-- JavaScript로 동적으로 댓글 항목을 추가합니다. -->
+    </div>
+  </div>
+</section>
 
-          <!-- Blog Comments Section -->
-          <section id="blog-comments" class="blog-comments section">
-
-            <div class="container">
-
-              <h4 class="comments-count">8 Comments</h4>
-
-              <div id="comment-1" class="comment">
-                <div class="d-flex">
-                  <div class="comment-img"><img src="assets/img/blog/comments-1.jpg" alt=""></div>
-                  <div>
-                    <h5><a href="">Georgia Reader</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                    <time datetime="2020-01-01">01 Jan,2022</time>
-
-                  </div>
-                </div>
-              </div><!-- End comment #1 -->
-
-              <div id="comment-2" class="comment">
-                <div class="d-flex">
-                  <div class="comment-img"><img src="/assets/img/blog/comments-2.jpg" alt=""></div>
-                  <div>
-                    <h5><a href="">Aron Alvarado</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                    <time datetime="2020-01-01">01 Jan,2022</time>
-                  </div>
-                </div>
-
-                <div id="comment-reply-1" class="comment comment-reply">
-                  <div class="d-flex">
-                    <div class="comment-img"><img src="assets/img/blog/comments-3.jpg" alt=""></div>
-                    <div>
-                      <h5><a href="">Lynda Small</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                      <time datetime="2020-01-01">01 Jan,2022</time>
-                    </div>
-                  </div>
-
-                  <div id="comment-reply-2" class="comment comment-reply">
-                    <div class="d-flex">
-                      <div class="comment-img"><img src="assets/img/blog/comments-4.jpg" alt=""></div>
-                      <div>
-                        <h5><a href="">Sianna Ramsay</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                        <time datetime="2020-01-01">01 Jan,2022</time>
-                            </div>
-                    </div>
-
-                  </div><!-- End comment reply #2-->
-
-                </div><!-- End comment reply #1-->
-
-              </div><!-- End comment #2-->
-
-              <div id="comment-3" class="comment">
-                <div class="d-flex">
-                  <div class="comment-img"><img src="assets/img/blog/comments-5.jpg" alt=""></div>
-                  <div>
-                    <h5><a href="">Nolan Davidson</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                    <time datetime="2020-01-01">01 Jan,2022</time>
-                    <p>
-                      Distinctio nesciunt rerum reprehenderit sed. Iste omnis eius repellendus quia nihil ut accusantium tempore. Nesciunt expedita id dolor exercitationem aspernatur aut quam ut. Voluptatem est accusamus iste at.
-                      Non aut et et esse qui sit modi neque. Exercitationem et eos aspernatur. Ea est consequuntur officia beatae ea aut eos soluta. Non qui dolorum voluptatibus et optio veniam. Quam officia sit nostrum dolorem.
-                    </p>
-                  </div>
-                </div>
-
-              </div><!-- End comment #3 -->
-
-              <div id="comment-4" class="comment">
-                <div class="d-flex">
-                  <div class="comment-img"><img src="assets/img/blog/comments-6.jpg" alt=""></div>
-                  <div>
-                    <h5><a href="">Kay Duggan</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                    <time datetime="2020-01-01">01 Jan,2022</time>
-                    <p>
-                      Dolorem atque aut. Omnis doloremque blanditiis quia eum porro quis ut velit tempore. Cumque sed quia ut maxime. Est ad aut cum. Ut exercitationem non in fugiat.
-                    </p>
-                  </div>
-                </div>
-
-              </div><!-- End comment #4 -->
-
-            </div>
-
-          </section><!-- /Blog Comments Section -->
-
-          <!-- Comment Form Section -->
-          <section id="comment-form" class="comment-form section">
-            <div class="container">
-
-              <form action="">
-
-                <h4>Post Comment</h4>
-                <p>Your email address will not be published. Required fields are marked * </p>
-                <div class="row">
-                  <div class="col-md-6 form-group">
-                    <input name="name" type="text" class="form-control" placeholder="Your Name*">
-                  </div>
-                  <div class="col-md-6 form-group">
-                    <input name="email" type="text" class="form-control" placeholder="Your Email*">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col form-group">
-                    <input name="website" type="text" class="form-control" placeholder="Your Website">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col form-group">
-                    <textarea name="comment" class="form-control" placeholder="Your Comment*"></textarea>
-                  </div>
-                </div>
-
-                <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Post Comment</button>
-                </div>
-
-              </form>
-
-            </div>
-          </section><!-- /Comment Form Section -->
+<!-- Comment Form Section (댓글 작성 폼) -->
+<section id="comment-form" class="comment-form section">
+  <div class="container">
+    <h4>댓글 작성</h4>
+    <p>필수 항목은 * 표시되어 있습니다.</p>
+    <!-- 게시글 ID를 숨김 필드로 저장 (Thymeleaf로 값 채워짐) -->
+    <input type="hidden" id="postId" th:value="${post.id}">
+    <form id="commentForm">
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <input id="anonymousAuthor" type="text" class="form-control" placeholder="작성자*" required>
+        </div>
+        <div class="col-md-6 form-group">
+          <input id="anonymousPassword" type="password" class="form-control" placeholder="비밀번호*" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col form-group">
+          <textarea id="content" class="form-control" placeholder="댓글 내용*" required></textarea>
+        </div>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary">댓글 등록</button>
+      </div>
+    </form>
+  </div>
+</section>
 
         </div>
 
@@ -336,4 +254,216 @@
           }
         }
       </script>
+    <script>
+  // 게시글 ID는 Thymeleaf가 채워줌
+  const postId = document.getElementById("postId").value;
+
+  // 댓글 목록 불러오기 (GET 요청)
+  function loadComments() {
+    fetch(`/api/comments/${postId}`)
+      .then(response => response.json())
+      .then(comments => {
+        const commentList = document.getElementById("commentList");
+        const commentCount = document.getElementById("comment-count");
+        commentList.innerHTML = "";
+        commentCount.innerText = comments.length;
+
+     // 댓글 목록 불러오기 (GET 요청) 내 각 댓글 생성 부분
+        comments.forEach(comment => {
+          // 새로운 댓글 블록(div.comment) 생성 (제공된 디자인 구조 참고)
+          const commentDiv = document.createElement("div");
+          commentDiv.className = "comment";
+          commentDiv.setAttribute("data-comment-id", comment.id);
+
+          commentDiv.innerHTML = `
+            <div class="d-flex">
+              <div class="comment-img">
+                <img src="assets/img/blog/default-avatar.jpg" alt="">
+              </div>
+              <div>
+                <h5>
+                  <a href="#">${ comment.anonymousAuthor ? comment.anonymousAuthor : "익명" }</a>
+                  <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a>
+                  <button onclick="deleteComment(${comment.id})" class="btn btn-sm btn-outline-danger" style="margin-left: 10px;">삭제</button>
+                </h5>
+                <time datetime="${ new Date(comment.createdAt).toISOString() }">
+                  ${ new Date(comment.createdAt).toLocaleString() }
+                </time>
+                <p>${ comment.content }</p>
+              </div>
+            </div>
+          `;
+
+          // 자식(답글)이 있는 경우 처리 (재귀적으로 추가)
+          if (comment.replies && comment.replies.length > 0) {
+            const repliesDiv = document.createElement("div");
+            repliesDiv.className = "comment-reply";
+            comment.replies.forEach(reply => {
+              const replyDiv = document.createElement("div");
+              replyDiv.className = "comment comment-reply";
+              replyDiv.setAttribute("data-comment-id", reply.id);
+              replyDiv.innerHTML = `
+                <div class="d-flex">
+                  <div class="comment-img">
+                    <img src="assets/img/blog/default-avatar.jpg" alt="">
+                  </div>
+                  <div>
+                    <h5>
+                      <a href="#">${ reply.anonymousAuthor ? reply.anonymousAuthor : "익명" }</a>
+                      <button onclick="deleteComment(${reply.id})" class="btn btn-sm btn-outline-danger" style="margin-left: 10px;">삭제</button>
+                    </h5>
+                    <time datetime="${ new Date(reply.createdAt).toISOString() }">
+                      ${ new Date(reply.createdAt).toLocaleString() }
+                    </time>
+                    <p>${ reply.content }</p>
+                  </div>
+                </div>
+              `;
+              repliesDiv.appendChild(replyDiv);
+            });
+            commentDiv.appendChild(repliesDiv);
+          }
+
+          document.getElementById("commentList").appendChild(commentDiv);
+        });
+     })
+      .catch(error => console.error("댓글 불러오기 오류:", error));
+  }
+
+  // 댓글 작성 (POST 요청)
+  document.getElementById("commentForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    // 폼 필드 값 가져오기
+    const anonymousAuthor = document.getElementById("anonymousAuthor").value;
+    const anonymousPassword = document.getElementById("anonymousPassword").value;
+    const content = document.getElementById("content").value;
+
+    // 컨트롤러는 @RequestParam으로 받으므로 form data 형식으로 전송
+    const formData = new URLSearchParams();
+    formData.append("postId", postId);
+    formData.append("content", content);
+    formData.append("anonymousAuthor", anonymousAuthor);
+    formData.append("anonymousPassword", anonymousPassword);
+    // userId는 로그인한 사용자가 있을 경우에만 사용; 여기서는 생략
+
+    fetch("/api/comments", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formData.toString()
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("댓글 등록에 실패하였습니다.");
+      }
+      return response.json();
+    })
+    .then(() => {
+      loadComments(); // 댓글 작성 후 목록 갱신
+      document.getElementById("commentForm").reset();
+    })
+    .catch(error => console.error("댓글 작성 오류:", error));
+  });
+
+  // 댓글 삭제 (DELETE 요청)
+  function deleteComment(commentId) {
+    // 삭제를 위해 비밀번호를 입력 받음
+    const anonymousPassword = prompt("댓글 삭제를 위한 비밀번호를 입력하세요:");
+    if (anonymousPassword === null || anonymousPassword.trim() === "") {
+      return; // 비밀번호 입력 취소 시 아무 작업도 수행하지 않음
+    }
+
+    fetch(`/api/comments/${commentId}?anonymousPassword=${encodeURIComponent(anonymousPassword)}`, {
+      method: "DELETE"
+    })
+    .then(response => {
+      if (response.ok) {
+        loadComments(); // 삭제 후 목록 갱신
+      } else {
+        alert("비밀번호가 올바르지 않습니다.");
+      }
+    })
+    .catch(error => console.error("댓글 삭제 오류:", error));
+  }
+
+//이벤트 위임을 통해 "reply" 링크 클릭 처리
+  document.addEventListener('click', function(e) {
+    const replyLink = e.target.closest('.reply');
+    if (replyLink) {
+      e.preventDefault();
+      // 클릭한 댓글 블록 찾기
+      const commentBlock = replyLink.closest('.comment');
+      // 만약 이미 답글 폼이 있다면 중복 생성 방지
+      if (commentBlock.querySelector('.reply-form')) return;
+
+      // 답글 폼 생성
+      const replyForm = document.createElement('form');
+      replyForm.className = 'reply-form';
+      replyForm.innerHTML = `
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <input type="text" class="form-control reply-author" placeholder="작성자*" required>
+          </div>
+          <div class="col-md-6 form-group">
+            <input type="password" class="form-control reply-password" placeholder="비밀번호*" required>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col form-group">
+            <textarea class="form-control reply-content" placeholder="답글 내용*" required></textarea>
+          </div>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary btn-sm">답글 등록</button>
+          <button type="button" class="btn btn-secondary btn-sm cancel-reply">취소</button>
+        </div>
+      `;
+      // 답글 폼을 해당 댓글 블록 하단에 추가
+      commentBlock.appendChild(replyForm);
+
+      // 답글 폼 제출 이벤트 처리
+      replyForm.addEventListener('submit', function(ev) {
+        ev.preventDefault();
+        const replyAuthor = replyForm.querySelector('.reply-author').value;
+        const replyPassword = replyForm.querySelector('.reply-password').value;
+        const replyContent = replyForm.querySelector('.reply-content').value;
+        // 부모 댓글 ID는 commentBlock의 data-comment-id 속성에서 읽음
+        const parentCommentId = commentBlock.getAttribute('data-comment-id');
+        
+        const replyFormData = new URLSearchParams();
+        replyFormData.append("postId", postId);
+        replyFormData.append("content", replyContent);
+        replyFormData.append("anonymousAuthor", replyAuthor);
+        replyFormData.append("anonymousPassword", replyPassword);
+        replyFormData.append("parentId", parentCommentId);
+
+        fetch("/api/comments", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: replyFormData.toString()
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("답글 등록에 실패하였습니다.");
+          }
+          return response.json();
+        })
+        .then(() => {
+          loadComments(); // 답글 등록 후 목록 갱신
+        })
+        .catch(error => console.error("답글 등록 오류:", error));
+      });
+
+      // 답글 폼 취소 버튼 처리
+      replyForm.querySelector('.cancel-reply').addEventListener('click', function() {
+        replyForm.remove();
+      });
+    }
+  });
+  
+  // 페이지 로드 시 댓글 목록 불러오기
+  window.addEventListener("load", loadComments);
+</script>
+
+      
 </html>

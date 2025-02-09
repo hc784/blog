@@ -32,8 +32,13 @@
               <li><a href="category.html">Category 4</a></li> -->
             </ul>
           </li>
-          
-        </ul>
+          <li th:if="${#authentication.name != 'anonymousUser'}">
+			    <a href="/logout">로그아웃</a>
+		  </li>
+		  <li th:if="${#authentication.name == 'anonymousUser'}">
+			    <a href="/login">로그인</a>
+		  </li>
+       </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 

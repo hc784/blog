@@ -25,13 +25,13 @@ public class AuthController {
     
     @GetMapping("/login")
     public String loginPage() {
-        return "login"; 
+        return "auth/login"; 
     }
     
-    @GetMapping("/register")
-    public String registerPage() {
-        return "register"; // 회원가입 페이지
-    }
+	/*
+	 * @GetMapping("/register") public String registerPage() { return "auth"; //
+	 * 회원가입 페이지 }
+	 */
 
     @PostMapping("/register")
     public String register( @RequestParam("username") String username,
@@ -81,6 +81,6 @@ public class AuthController {
         user.setActive(true); // 활성화 상태
         userRepository.save(user);
         
-        return "redirect:/login"; // 회원가입 후 로그인 페이지로 이동
+        return "redirect:/auth/login"; // 회원가입 후 로그인 페이지로 이동
     }
 }
