@@ -23,9 +23,9 @@ public class Post {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "blog_id", nullable = false)
+    private Blog blog;  // 소속된 블로그
 
     @Column(nullable = false, columnDefinition = "BIGINT DEFAULT 0")
     private Long viewCount = 0L;  // 조회수 추가

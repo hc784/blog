@@ -6,15 +6,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import blog.post.service.BlogService;
 import blog.security.service.CustomOAuth2UserService;
 
 @Configuration
 public class SecurityConfig {
 	
     private final CustomOAuth2UserService customOAuth2UserService;
-
-    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService) {
+    private final BlogService blogService;
+    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, BlogService blogService) {
         this.customOAuth2UserService = customOAuth2UserService;
+        this.blogService = blogService;
     }
     
     @Bean
@@ -22,6 +24,8 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable()) // CSRF 비활성화
             .authorizeHttpRequests(auth -> auth
+            	    // 글쓰기, 카테고리 설정, 프로필 설정 등 인증이 필요한 URL 설정
+                    .requestMatchers("/posts/create", "/categories/setting", "/profile/**").authenticated()
                     .anyRequest().permitAll() // 모든 요청 허용
                 )
                 .formLogin(login -> login

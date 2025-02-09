@@ -12,32 +12,27 @@
         <ul>
           <li><a th:href="@{/posts}">글목록</a></li>
      
-          <li><a th:href="@{/posts/create}">글쓰기</a></li>
-          
-          <li class="dropdown ms-auto"><a href="#"><span>설정</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a th:href="@{/categories/setting}">카테고리 설정</a></li>
-              <li><a href="#">프로필 설정</a></li>
-<!--               <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                <ul>
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
-                  <li><a href="#">Deep Dropdown 5</a></li>
-                </ul>
-              </li>
-              <li><a href="category.html">Category 2</a></li>
-              <li><a href="category.html">Category 3</a></li>
-              <li><a href="category.html">Category 4</a></li> -->
-            </ul>
-          </li>
-          <li th:if="${#authentication.name != 'anonymousUser'}">
-			    <a href="/logout">로그아웃</a>
-		  </li>
-		  <li th:if="${#authentication.name == 'anonymousUser'}">
-			    <a href="/login">로그인</a>
-		  </li>
+  <li th:if="${#authentication.name != 'anonymousUser'}">
+      <a th:href="@{/posts/create}">글쓰기</a>
+  </li>
+  <!-- 로그인한 경우에만 설정 메뉴 보이기 -->
+  <li class="dropdown ms-auto" th:if="${#authentication.name != 'anonymousUser'}">
+      <a href="#">
+          <span>설정</span>
+          <i class="bi bi-chevron-down toggle-dropdown"></i>
+      </a>
+      <ul>
+          <li><a th:href="@{/categories/setting}">카테고리 설정</a></li>
+          <li><a href="#">프로필 설정</a></li>
+      </ul>
+  </li>
+  <!-- 로그인 상태에 따른 로그인/로그아웃 메뉴 -->
+  <li th:if="${#authentication.name != 'anonymousUser'}">
+      <a href="/logout">로그아웃</a>
+  </li>
+  <li th:if="${#authentication.name == 'anonymousUser'}">
+      <a href="/login">로그인</a>
+  </li>
        </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>

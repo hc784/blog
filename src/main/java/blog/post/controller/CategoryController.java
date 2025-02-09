@@ -20,22 +20,6 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    // 최상위 카테고리 조회
-//    @GetMapping("/top-level")
-//    public String getTopLevelCategories(Model model) {
-//        List<Category> categories = categoryService.getTopLevelCategories();
-//        model.addAttribute("categories", categories);
-//        return "categories/topLevel";  // Thymeleaf 등에서 사용할 뷰 템플릿 경로
-//    }
-//
-//    // 특정 부모 카테고리의 자식 조회
-//    @GetMapping("/subcategories/{parentId}")
-//    public String getSubCategories(@PathVariable Long parentId, Model model) {
-//        List<Category> subCategories = categoryService.getSubCategories(parentId);
-//        model.addAttribute("subCategories", subCategories);
-//        return "categories/subCategories";  // Thymeleaf 뷰 템플릿 경로
-//    }
-    
     @GetMapping("/categories")
     public String showCategoryList(Model model) {
         List<Category> categories = categoryService.getTopLevelCategories();
