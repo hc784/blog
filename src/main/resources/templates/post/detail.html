@@ -72,10 +72,10 @@
 				
 				 <!-- Edit and Delete Buttons -->
 <div class="post-actions mt-4 d-flex gap-3">
-  <a th:href="@{/posts/edit/{id}(id=${post.id})}" class="btn btn-outline-secondary btn-sm d-flex align-items-center">
+  <a th:href="@{/blogs/{blogId}/posts/edit/{id}(blogId=${blogId}, id=${post.id})}" class="btn btn-outline-secondary btn-sm d-flex align-items-center">
     <i class="bi bi-pencil-square me-2"></i> 수정
   </a>
-<form th:action="@{/posts/delete/{id}(id=${post.id})}" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
+<form th:action="@{/blogs/{blogId}/posts/delete/{id}(blogId=${blogId}, id=${post.id})}" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
   <input type="hidden" name="_method" value="delete">
   <button type="submit" class="btn btn-outline-danger btn-sm d-flex align-items-center">
     <i class="bi bi-trash me-2"></i> 삭제

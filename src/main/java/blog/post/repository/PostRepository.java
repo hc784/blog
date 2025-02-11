@@ -1,14 +1,17 @@
 package blog.post.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import blog.post.model.Blog;
 import blog.post.model.Post;
 
 
@@ -30,5 +33,14 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT p FROM Post p WHERE p.category.id = :categoryId OR p.category.parent.id = :categoryId")
     Page<Post> findPostsByCategoryOrChildren(Long categoryId, Pageable pageable);
     
-    int countByCategoryIdIn(List<Long> categoryIds);
+    // 블로그별, 카테고리 또는 자식 카테고리 조건을 함께 처리하는 메서드 (JPQL 또는 QueryDSL 활용)
+    @Query("SELECT p FROM Post p WHERE p.blogId = :blogId AND (p.category.id = :categoryId OR p.category.parent.id = :categoryId)")
+    Page<Post> findPostsByBlogIdAndCategoryOrChildren(@Param("blogId") Long blogId,
+                                                      @Param("categoryId") Long categoryId,
+                                                      Pageable pageable);
+    
+    int countByCategoryIdInAndBlogId(List<Long> categoryIds, Long blogId);
+    Page<Post> findByBlogId(Long blogId, Pageable pageable);
+    
+    Optional<Post> findByIdAndBlogId(Long id, Long blogId);
 }

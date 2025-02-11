@@ -1,48 +1,51 @@
-
-  <header id="header" class="header d-flex align-items-center sticky-top">
+<header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container position-relative d-flex align-items-center justify-content-between">
 
-      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1 class="sitename">ZenBlog</h1>
-      </a>
+        <a th:href="@{/blogs/{blogId}(blogId=${blogId})}" class="logo d-flex align-items-center me-auto me-xl-0">
+            <h1 class="sitename">ZenBlog</h1>
+        </a>
 
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a th:href="@{/posts}">글목록</a></li>
-     
-  <li th:if="${#authentication.name != 'anonymousUser'}">
-      <a th:href="@{/posts/create}">글쓰기</a>
-  </li>
-  <!-- 로그인한 경우에만 설정 메뉴 보이기 -->
-  <li class="dropdown ms-auto" th:if="${#authentication.name != 'anonymousUser'}">
-      <a href="#">
-          <span>설정</span>
-          <i class="bi bi-chevron-down toggle-dropdown"></i>
-      </a>
-      <ul>
-          <li><a th:href="@{/categories/setting}">카테고리 설정</a></li>
-          <li><a href="#">프로필 설정</a></li>
-      </ul>
-  </li>
-  <!-- 로그인 상태에 따른 로그인/로그아웃 메뉴 -->
-  <li th:if="${#authentication.name != 'anonymousUser'}">
-      <a href="/logout">로그아웃</a>
-  </li>
-  <li th:if="${#authentication.name == 'anonymousUser'}">
-      <a href="/login">로그인</a>
-  </li>
-       </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
+        <nav id="navmenu" class="navmenu">
+            <ul>
+                <!-- 글 목록 -->
+                <li>
+                    <a th:href="@{/blogs/{blogId}/posts(blogId=${blogId})}">글목록</a>
+                </li>
 
-      <div class="header-social-links">
-        <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
-        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-      </div>
+                <!-- 로그인한 경우에만 '글쓰기' 메뉴 표시 -->
+                <li th:if="${#authentication.name != 'anonymousUser'}">
+                    <a th:href="@{/blogs/{blogId}/posts/create(blogId=${blogId})}">글쓰기</a>
+                </li>
+
+                <!-- 로그인한 경우에만 '설정' 드롭다운 메뉴 표시 -->
+                <li class="dropdown ms-auto" th:if="${#authentication.name != 'anonymousUser'}">
+                    <a href="#">
+                        <span>설정</span>
+                        <i class="bi bi-chevron-down toggle-dropdown"></i>
+                    </a>
+                    <ul>
+                        <li><a th:href="@{/blogs/{blogId}/categories/setting(blogId=${blogId})}">카테고리 설정</a></li>
+                        <li><a th:href="@{/blogs/{blogId}/profile-settings(blogId=${blogId})}">프로필 설정</a></li>
+                    </ul>
+                </li>
+
+                <!-- 로그인 상태에 따른 로그인/로그아웃 메뉴 -->
+                <li th:if="${#authentication.name != 'anonymousUser'}">
+                    <a th:href="@{/logout}">로그아웃</a>
+                </li>
+                <li th:if="${#authentication.name == 'anonymousUser'}">
+                    <a th:href="@{/login}">로그인</a>
+                </li>
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+        <div class="header-social-links">
+            <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+        </div>
 
     </div>
-  </header>
+</header>

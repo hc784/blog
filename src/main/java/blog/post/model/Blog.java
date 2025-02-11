@@ -24,7 +24,4 @@ public class Blog {
     @JoinColumn(name = "owner_id", nullable = false, unique = true)
     private User owner;  // 블로그 주인 (각 블로그는 하나의 주인을 가짐)
 
-
-    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Post> posts;  // 블로그의 게시글 목록
 }

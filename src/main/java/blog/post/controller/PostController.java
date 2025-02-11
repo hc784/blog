@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping("/posts")
+@RequestMapping("/blogs/{blogId}/posts")
 public class PostController { 
 
     private final PostService postService;
@@ -26,24 +26,25 @@ public class PostController {
     }
 
     
-    // 글 작성 페이지를 보여줌 (뷰 렌더링)
+    // 글 작성 페이지 (뷰 렌더링)
     @GetMapping("/create")
-    public String showCreatePostForm(Model model) {
-    	List<Category> categories = categoryService.getTopLevelCategories();
-    	model.addAttribute("categories", categories);
-    	model.addAttribute("post", new Post());
-        return "post/write";  // post-form.html로 이동
+    public String showCreatePostForm(@PathVariable Long blogId, Model model) {
+        List<Category> categories = categoryService.getTopLevelCategories(blogId);
+        model.addAttribute("categories", categories);
+        model.addAttribute("post", new Post());
+        model.addAttribute("blogId", blogId); // 뷰에서 blogId 활용 가능
+        return "post/write";  // post/write.html로 이동
     }
-
     // 글 작성 처리
     @PostMapping({"/create", "/edit/{id}"})
-    public String createPost(PostDto postDTO, Model model, RedirectAttributes redirectAttributes) {
-        Post post = postService.createPost(postDTO.getTitle(), postDTO.getContent(), postDTO.getCategoryId());
+    public String createPost(@PathVariable Long blogId, PostDto postDTO, 
+                             Model model, RedirectAttributes redirectAttributes) {
+        // PostService의 createPost 메서드에 blogId를 전달하도록 수정
+        Post post = postService.createPost(blogId, postDTO.getTitle(), postDTO.getContent(), postDTO.getCategoryId());
         model.addAttribute("post", post);
         redirectAttributes.addFlashAttribute("message", "게시글이 성공적으로 등록되었습니다!");
-        return "redirect:/posts/" + post.getId();  // 글 상세 페이지로 리다이렉트
+        return "redirect:/blogs/" + blogId + "/posts/" + post.getId();  // 글 상세 페이지로 리다이렉트
     }
-
 //    // 전체 게시글 목록 페이지
 //    @GetMapping
 //    public String getAllPosts(Model model, @RequestParam(value = "category_id", required = false) Long categoryId) {
@@ -58,27 +59,26 @@ public class PostController {
 //        model.addAttribute("posts", posts);
 //        return "post/category";
 //    }
-
     @GetMapping
-    public String getAllPosts(Model model,
-    		@RequestParam(value = "category_id", required = false) Long categoryId,
-    		@RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-    	Page<Post> postPage;
-    	   
+    public String getAllPosts(@PathVariable Long blogId, Model model,
+                              @RequestParam(value = "category_id", required = false) Long categoryId,
+                              @RequestParam(defaultValue = "0") int page,
+                              @RequestParam(defaultValue = "10") int size) {
+        Page<Post> postPage;
         if (categoryId == null) {
-            postPage = postService.getPaginatedPosts(page, size);
+            postPage = postService.getPaginatedPosts(blogId, page, size);
         } else {
-            postPage = postService.getPaginatedPostsByCategory(categoryId, page, size);
+            postPage = postService.getPaginatedPostsByCategory(blogId, categoryId, page, size);
         }
-
-        List<Category> categories = categoryService.getTopLevelCategories();
         
-     // 블록 페이징 계산 (5개씩 출력)
+        List<Category> categories = categoryService.getTopLevelCategories(blogId);
+        
+        // 블록 페이징 계산 (예: 5개씩 출력)
         int blockSize = 5;
         int startPage = Math.max(0, (page / blockSize) * blockSize);
         int endPage = Math.min(startPage + blockSize - 1, postPage.getTotalPages() - 1);
         
+        model.addAttribute("blogId", blogId);
         model.addAttribute("categories", categories);
         model.addAttribute("posts", postPage);
         model.addAttribute("currentPage", page);
@@ -87,40 +87,33 @@ public class PostController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         
-        return "post/category";  // post-list.html 렌더링
-    }
-    // 특정 게시글 상세 페이지
-    @GetMapping("/{id}")
-    public String getPostById(@PathVariable Long id, Model model) {
-        Post post = postService.getPostById(id);
-        model.addAttribute("post", post);
-        return "post/detail";  // post-detail.html 렌더링
-    }
-    
-    // 게시글 수정 페이지를 보여줌
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Long id, Model model) {
-    	List<Category> categories = categoryService.getTopLevelCategories();
-    	model.addAttribute("categories", categories);
-        Post post = postService.getPostById(id);
-        model.addAttribute("post", post);
-        return "post/edit";  // post-edit.html 렌더링
+        return "post/category";  // post/category.html 렌더링
     }
 
-    // 게시글 수정 처리
-	/*
-	 * @PostMapping("/edit/{id}") public String updatePost(@PathVariable Long
-	 * id, @RequestParam String title, @RequestParam String content,
-	 * RedirectAttributes redirectAttributes) { postService.updatePost(id, title,
-	 * content); redirectAttributes.addFlashAttribute("message",
-	 * "게시글이 성공적으로 수정되었습니다!"); return "redirect:/posts/" + id; // 수정 후 해당 게시글 상세
-	 * 페이지로 이동 }
-	 */
+    // 특정 게시글 상세 페이지
+    @GetMapping("/{id}")
+    public String getPostById(@PathVariable Long blogId, @PathVariable Long id, Model model) {
+        Post post = postService.getPostById(blogId, id);
+        model.addAttribute("post", post);
+        model.addAttribute("blogId", blogId);
+        return "post/detail";  // post/detail.html 렌더링
+    }
     
-    // 게시글 삭제 처리 후 목록 페이지로 리다이렉트
+    // 게시글 수정 페이지
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable Long blogId, @PathVariable Long id, Model model) {
+        List<Category> categories = categoryService.getTopLevelCategories(blogId);
+        model.addAttribute("categories", categories);
+        Post post = postService.getPostById(blogId, id);
+        model.addAttribute("post", post);
+        model.addAttribute("blogId", blogId);
+        return "post/edit";  // post/edit.html 렌더링
+    }
+
+    // 게시글 삭제 처리
     @DeleteMapping("/delete/{id}")
-    public String deletePost(@PathVariable Long id) {
-        postService.deletePost(id);
-        return "redirect:/posts";  // 목록 페이지로 리다이렉트
+    public String deletePost(@PathVariable Long blogId, @PathVariable Long id) {
+        postService.deletePost(blogId, id);
+        return "redirect:/blogs/" + blogId + "/posts";  // 목록 페이지로 리다이렉트
     }
 }

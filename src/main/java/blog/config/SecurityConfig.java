@@ -30,18 +30,18 @@ public class SecurityConfig {
                 )
                 .formLogin(login -> login
                     .loginPage("/auth/login") // 사용자 정의 로그인 페이지
-                    .defaultSuccessUrl("/posts") // 로그인 성공 후 이동 경로
+                    .defaultSuccessUrl("/blogs/1/posts") // 로그인 성공 후 이동 경로
                     .permitAll() // 로그인 페이지 누구나 접근 가능
                 )
                 .logout(logout -> logout
                     .logoutUrl("/logout") // 로그아웃 처리 URL
-                    .logoutSuccessUrl("/posts") // 로그아웃 성공 후 이동 경로
+                    .logoutSuccessUrl("/blogs/1/posts") // 로그아웃 성공 후 이동 경로
                     .permitAll()
                 )
                 // OAuth2 로그인 설정
                 .oauth2Login(oauth2 -> oauth2
                     .loginPage("/auth/login") // OAuth2 로그인도 동일한 로그인 페이지 사용
-                    .defaultSuccessUrl("/posts") // OAuth2 로그인 성공 후 이동 경로
+                    .defaultSuccessUrl("/blogs/1/posts") // OAuth2 로그인 성공 후 이동 경로
                     .userInfoEndpoint(userInfo -> userInfo
                         .userService(customOAuth2UserService) // 사용자 정보 처리 서비스 등록
                     )

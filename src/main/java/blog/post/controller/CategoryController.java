@@ -10,41 +10,42 @@ import blog.post.model.Category;
 import blog.post.service.CategoryService;
 
 import java.util.List;
-
 @Controller
-@RequestMapping("/categories")
+@RequestMapping("/blogs/{blogId}/categories")
 public class CategoryController {
+
     private final CategoryService categoryService;
 
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
-    @GetMapping("/categories")
-    public String showCategoryList(Model model) {
-        List<Category> categories = categoryService.getTopLevelCategories();
+    // 특정 블로그의 카테고리 목록 조회
+    @GetMapping
+    public String showCategoryList(@PathVariable Long blogId, Model model) {
+        List<Category> categories = categoryService.getTopLevelCategories(blogId);
         model.addAttribute("categories", categories);
+        model.addAttribute("blogId", blogId);
         return "categories/list";  // Thymeleaf 템플릿 파일 경로
     }
-    
+
+    // 특정 블로그의 카테고리 설정 페이지
     @GetMapping("/setting")
-    public String listCategories(Model model) {
-        List<Category> categories = categoryService.getTopLevelCategories();
+    public String listCategories(@PathVariable Long blogId, Model model) {
+        List<Category> categories = categoryService.getTopLevelCategories(blogId);
         model.addAttribute("categories", categories);
+        model.addAttribute("blogId", blogId);
         return "categories/setting";
     }
-    
+
+    // 블로그별 카테고리 업데이트
     @PostMapping("/update")
-    public ResponseEntity<String> updateCategories(@RequestBody CategoryRequest request) {
-    	try {
-    		categoryService.updateCategories(request);
-    		return ResponseEntity.ok("카테고리가 성공적으로 저장되었습니다.");
-    	}
-    	catch (IllegalStateException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
-        
-        
+    public ResponseEntity<String> updateCategories(@PathVariable Long blogId, @RequestBody CategoryRequest request) {
+        try {
+            categoryService.updateCategories(blogId, request);
+            return ResponseEntity.ok("카테고리가 성공적으로 저장되었습니다.");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
-    
 }

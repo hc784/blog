@@ -25,7 +25,9 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
+    private Long blogId;
+    
     @Column(nullable = false, unique = false, length = 100)
     private String name;
     private int categoryOrder;
@@ -43,4 +45,4 @@ public class Category {
         return this.parent == null; // 부모가 없으면 최상위
     }
     
-} 
+}
