@@ -1,7 +1,7 @@
 <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container position-relative d-flex align-items-center justify-content-between">
 
-        <a th:href="@{/blogs/{blogId}(blogId=${blogId})}" class="logo d-flex align-items-center me-auto me-xl-0">
+        <a th:href="@{/blogs}" class="logo d-flex align-items-center me-auto me-xl-0">
             <h1 class="sitename">ZenBlog</h1>
         </a>
 
@@ -13,12 +13,13 @@
                 </li>
 
                 <!-- 로그인한 경우에만 '글쓰기' 메뉴 표시 -->
-                <li th:if="${#authentication.name != 'anonymousUser'}">
+                <li th:if="${#authentication.name != 'anonymousUser' and #authentication.principal.blogId == blogId}">
                     <a th:href="@{/blogs/{blogId}/posts/create(blogId=${blogId})}">글쓰기</a>
                 </li>
 
                 <!-- 로그인한 경우에만 '설정' 드롭다운 메뉴 표시 -->
-                <li class="dropdown ms-auto" th:if="${#authentication.name != 'anonymousUser'}">
+                <li class="dropdown ms-auto" th:if="${#authentication.name != 'anonymousUser' and #authentication.principal.blogId == blogId}">
+
                     <a href="#">
                         <span>설정</span>
                         <i class="bi bi-chevron-down toggle-dropdown"></i>

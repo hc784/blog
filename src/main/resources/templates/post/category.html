@@ -109,31 +109,9 @@
             </div>
           </section><!-- /Blog Pagination Section -->
         </div>
+<div th:replace="~{partials/sidebar}"></div>
 
-        <div class="col-lg-4 sidebar">
-          <div class="widgets-container">
-            <!-- Categories Widget -->
-            <div class="categories-widget widget-item">
-              <h3 class="widget-title">Categories</h3>
-              <ul class="category-list">
-                <li>
-                  <a th:href="@{/blogs/{blogId}/posts(blogId=${blogId}, category_id=${null})}">전체 글 보기</a>
-                </li>
-                <li th:each="category : ${categories}">
-                  <a th:href="@{/blogs/{blogId}/posts(blogId=${blogId}, category_id=${category.id})}"
-                     th:text="${category.name}">Category Name</a>
-                  <ul th:if="${category.children != null and category.children.size() > 0}" class="sub-category-list">
-                    <li th:each="child : ${category.children}">
-                      <a th:href="@{/blogs/{blogId}/posts(blogId=${blogId}, category_id=${child.id})}"
-                         th:text="${child.name}">Subcategory Name</a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
+     
       </div>
     </div>
 

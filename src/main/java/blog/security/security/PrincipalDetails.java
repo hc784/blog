@@ -1,5 +1,6 @@
 package blog.security.security;
 
+import blog.post.model.Blog;
 import blog.security.model.User;
 import blog.security.oauth.OAuth2UserInfo;
 import lombok.Getter;
@@ -31,7 +32,13 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         this.user = user;
         this.oAuth2UserInfo = oAuth2UserInfo;
     }
-
+    
+    public Blog getBlog() {
+    	return user.getBlog();
+    }
+    public Long getBlogId() {
+    	return user.getBlog().getId();
+    }
     // UserDetails 인터페이스 구현
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

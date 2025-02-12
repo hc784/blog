@@ -29,6 +29,7 @@ public class PostService {
         post.setBlogId(blogId);  // Post 엔티티에 blogId 필드가 있어야 함
         post.setTitle(title);
         post.setContent(content);
+        post.setBlogId(blogId);
         post.setCategory(categoryRepository.findById(categoryId)
             .orElseThrow(() -> new EntityNotFoundException("Category not found with ID: " + categoryId)));
         return postRepository.save(post);

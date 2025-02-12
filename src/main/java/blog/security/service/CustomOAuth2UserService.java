@@ -2,11 +2,14 @@ package blog.security.service;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import blog.post.model.Blog;
+import blog.post.repository.BlogRepository;
 import blog.security.model.User;
 import blog.security.oauth.GoogleUserInfo;
 import blog.security.oauth.KakaoUserInfo;
@@ -21,11 +24,14 @@ import jakarta.servlet.http.HttpSession;
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-	 private final UserRepository userRepository;
+	private final UserRepository userRepository;
 
-	    public CustomOAuth2UserService(UserRepository userRepository) {
-	        this.userRepository = userRepository;
-	    }
+    private final BlogRepository blogRepository;
+
+    public CustomOAuth2UserService(UserRepository userRepository, BlogRepository blogRepository) {
+        this.userRepository = userRepository;
+        this.blogRepository = blogRepository;
+    }
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) {
@@ -63,6 +69,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             newUser.setProvider(provider);
             newUser.setProviderId(providerId);
             newUser.setActive(true);
+            
+            Blog blog = new Blog("null",newUser);
+            newUser.setBlog(blog); // 연관 관계 설정
+            blogRepository.save(blog);
 
             return userRepository.save(newUser);
         }

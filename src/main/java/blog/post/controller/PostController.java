@@ -5,8 +5,13 @@ import blog.post.model.Category;
 import blog.post.model.Post;
 import blog.post.service.CategoryService;
 import blog.post.service.PostService;
+import blog.security.security.PrincipalDetails;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +33,11 @@ public class PostController {
     
     // 글 작성 페이지 (뷰 렌더링)
     @GetMapping("/create")
-    public String showCreatePostForm(@PathVariable Long blogId, Model model) {
-        List<Category> categories = categoryService.getTopLevelCategories(blogId);
+    @PreAuthorize("isAuthenticated() and principal.blogId == #blogId") 
+    public String showCreatePostForm(@PathVariable Long blogId, Model model, @CurrentSecurityContext SecurityContext securityContext) {
+    	 PrincipalDetails principal = (PrincipalDetails) securityContext.getAuthentication().getPrincipal();
+    	System.out.println(principal.getBlog().getId());
+    	List<Category> categories = categoryService.getTopLevelCategories(blogId);
         model.addAttribute("categories", categories);
         model.addAttribute("post", new Post());
         model.addAttribute("blogId", blogId); // 뷰에서 blogId 활용 가능
@@ -101,6 +109,7 @@ public class PostController {
     
     // 게시글 수정 페이지
     @GetMapping("/edit/{id}")
+    @PreAuthorize("isAuthenticated() and principal.blogId == #blogId") 
     public String showEditForm(@PathVariable Long blogId, @PathVariable Long id, Model model) {
         List<Category> categories = categoryService.getTopLevelCategories(blogId);
         model.addAttribute("categories", categories);
@@ -112,6 +121,7 @@ public class PostController {
 
     // 게시글 삭제 처리
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("isAuthenticated() and principal.blogId == #blogId") 
     public String deletePost(@PathVariable Long blogId, @PathVariable Long id) {
         postService.deletePost(blogId, id);
         return "redirect:/blogs/" + blogId + "/posts";  // 목록 페이지로 리다이렉트

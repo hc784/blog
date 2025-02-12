@@ -1,6 +1,7 @@
 package blog.post.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,7 @@ public class CategoryController {
 
     // 특정 블로그의 카테고리 설정 페이지
     @GetMapping("/setting")
+    @PreAuthorize("isAuthenticated() and principal.blogId == #blogId") 
     public String listCategories(@PathVariable Long blogId, Model model) {
         List<Category> categories = categoryService.getTopLevelCategories(blogId);
         model.addAttribute("categories", categories);
