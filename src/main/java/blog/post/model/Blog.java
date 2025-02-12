@@ -22,7 +22,10 @@ public class Blog {
     @Column(nullable = false, unique = true)
     @NonNull
     private String title;  // 블로그 이름 (유일해야 함)
-
+    
+    @Column(length = 500) 
+    private String description; // 블로그 설명
+    
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false, unique = true)
     @NonNull

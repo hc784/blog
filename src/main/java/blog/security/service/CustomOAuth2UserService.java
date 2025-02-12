@@ -69,6 +69,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             newUser.setProvider(provider);
             newUser.setProviderId(providerId);
             newUser.setActive(true);
+            newUser.setNickname(email);
             
             Blog blog = new Blog("null",newUser);
             newUser.setBlog(blog); // 연관 관계 설정

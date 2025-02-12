@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>블로그 설정 - ZenBlog</title>
+  <!-- ZenBlog 스타일 시트 (필요에 따라 경로 및 파일명을 수정) -->
+  <link rel="stylesheet" th:href="@{/css/zenblog.css}">
+  <!-- 공통 head 영역 포함 -->
+  <div th:replace="~{partials/head}"></div>
+</head>
+<body>
+  <!-- 공통 헤더 영역 -->
+  <div th:replace="~{partials/header}"></div>
+
+  <main class="main">
+    <div class="container">
+      <!-- 페이지 타이틀 영역 -->
+      <div class="page-title position-relative">
+        <div class="container d-lg-flex justify-content-between align-items-center">
+          <h1 class="mb-2 mb-lg-0">블로그 설정</h1>
+          <nav class="breadcrumbs">
+            <ol>
+              <li><a th:href="@{/}">Home</a></li>
+              <li class="current">설정</li>
+            </ol>
+          </nav>
+        </div>
+      </div><!-- End Page Title -->
+
+      <div class="row">
+        <!-- 중앙 정렬된 설정 폼 -->
+        <div class="col-lg-8 offset-lg-2">
+          <div class="settings-form widget-item">
+            <form th:action="@{/blogs/{blogId}/settings(blogId=${blog.id})}" method="post">
+              <div class="form-group">
+                <label for="blogTitle">블로그 제목</label>
+                <input type="text" id="blogTitle" name="title" class="form-control" th:value="${blog.title}" required>
+              </div>
+              <div class="form-group">
+                <label for="blogDescription">블로그 설명</label>
+                <textarea id="blogDescription" name="description" class="form-control" rows="5" required th:text="${blog.description}"></textarea>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">저장하기</button>
+              </div>
+            </form>
+          </div><!--/settings-form-->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 공통 푸터 영역 -->
+  <div th:replace="~{partials/footer}"></div>
+</body>
+</html>
