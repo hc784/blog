@@ -22,10 +22,6 @@ public class AuthController {
     
     @Autowired
     private BlogRepository blogRepository;
-    @GetMapping("/")
-    public String loginMainPage() {
-        return "loginMain"; 
-    }
     
     @GetMapping("/login")
     public String loginPage() {

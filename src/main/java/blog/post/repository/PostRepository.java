@@ -39,8 +39,14 @@ public interface PostRepository extends JpaRepository<Post, Long> {
                                                       @Param("categoryId") Long categoryId,
                                                       Pageable pageable);
     
+    // 🔹 제목 또는 내용에서 하나의 키워드로 검색 (대소문자 구분 없이 검색)
+    Page<Post> findByBlogIdAndTitleContainingIgnoreCaseOrBlogIdAndContentContainingIgnoreCase(
+            Long blogId, String keyword, Long blogId2, String keyword2, Pageable pageable);
+    
     int countByCategoryIdInAndBlogId(List<Long> categoryIds, Long blogId);
     Page<Post> findByBlogId(Long blogId, Pageable pageable);
     
     Optional<Post> findByIdAndBlogId(Long id, Long blogId);
+    
+    List<Post> findTop5ByBlogIdOrderByCreatedAtDesc(Long blogId);
 }

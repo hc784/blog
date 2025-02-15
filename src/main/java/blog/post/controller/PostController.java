@@ -70,23 +70,27 @@ public class PostController {
     @GetMapping
     public String getAllPosts(@PathVariable Long blogId, Model model,
                               @RequestParam(value = "category_id", required = false) Long categoryId,
+                              @RequestParam(value = "search", required = false) String search, // 🔹 검색 추가
                               @RequestParam(defaultValue = "0") int page,
                               @RequestParam(defaultValue = "10") int size) {
         Page<Post> postPage;
-        if (categoryId == null) {
+
+        if (search != null && !search.isEmpty()) {
+            postPage = postService.searchPosts(blogId, search, page, size); // 🔹 검색 메서드 호출
+        } else if (categoryId == null) {
             postPage = postService.getPaginatedPosts(blogId, page, size);
         } else {
             postPage = postService.getPaginatedPostsByCategory(blogId, categoryId, page, size);
         }
-        
+
         List<Category> categories = categoryService.getTopLevelCategories(blogId);
-        
-        // 블록 페이징 계산 (예: 5개씩 출력)
+
+        // 🔹 블록 페이징 계산 (예: 5개씩 출력)
         int blockSize = 5;
         int startPage = Math.max(0, (page / blockSize) * blockSize);
         int endPage = Math.min(startPage + blockSize - 1, postPage.getTotalPages() - 1);
         endPage = endPage == -1 ? 0 : endPage;
-        
+
         model.addAttribute("blogId", blogId);
         model.addAttribute("categories", categories);
         model.addAttribute("posts", postPage);
@@ -95,9 +99,11 @@ public class PostController {
         model.addAttribute("pageSize", size);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        
+        model.addAttribute("search", search); // 🔹 검색어 전달
+
         return "post/category";  // post/category.html 렌더링
     }
+
 
     // 특정 게시글 상세 페이지
     @GetMapping("/{id}")

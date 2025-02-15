@@ -72,4 +72,14 @@ public class PostService {
         postRepository.delete(post);
     }
     
+    // 🔹 제목 + 내용 하나의 검색어로 검색 (구분 없이 검색)
+    public Page<Post> searchPosts(Long blogId, String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return postRepository.findByBlogIdAndTitleContainingIgnoreCaseOrBlogIdAndContentContainingIgnoreCase(
+                blogId, keyword, blogId, keyword, pageable);
+    }
+    
+    public List<Post> getRecentPosts(Long blogId) {
+        return postRepository.findTop5ByBlogIdOrderByCreatedAtDesc(blogId);
+    }
 }

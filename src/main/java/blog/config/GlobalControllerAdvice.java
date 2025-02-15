@@ -2,6 +2,8 @@ package blog.config;
 
 import blog.post.model.Blog;
 import blog.post.repository.BlogRepository;
+import blog.post.service.PostService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class GlobalControllerAdvice {
 
     private final BlogRepository blogRepository;
-
-    public GlobalControllerAdvice(BlogRepository blogRepository) {
+    private final PostService postService;
+    public GlobalControllerAdvice(BlogRepository blogRepository, PostService postService) {
         this.blogRepository = blogRepository;
+        this.postService = postService;
     }
 
     @ModelAttribute
@@ -31,6 +34,7 @@ public class GlobalControllerAdvice {
                         : "/assets/img/userIcon.png";
 
                     model.addAttribute("profileImageUrl", profileImageUrl);
+                    model.addAttribute("recentPosts",postService.getRecentPosts(blogId)); 
             }
         }
     }
