@@ -85,6 +85,7 @@ public class PostController {
         int blockSize = 5;
         int startPage = Math.max(0, (page / blockSize) * blockSize);
         int endPage = Math.min(startPage + blockSize - 1, postPage.getTotalPages() - 1);
+        endPage = endPage == -1 ? 0 : endPage;
         
         model.addAttribute("blogId", blogId);
         model.addAttribute("categories", categories);
