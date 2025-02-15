@@ -26,6 +26,11 @@ public class GlobalControllerAdvice {
             if (blog != null) {
                 model.addAttribute("blogOwnerNickname", blog.getOwner().getNickname());
                 model.addAttribute("blogDescription",blog.getDescription());
+                String profileImageUrl = (blog.getProfileImage() != null) 
+                        ? blog.getProfileImage()
+                        : "/assets/img/userIcon.png";
+
+                    model.addAttribute("profileImageUrl", profileImageUrl);
             }
         }
     }

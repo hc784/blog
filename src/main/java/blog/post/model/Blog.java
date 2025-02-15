@@ -26,9 +26,13 @@ public class Blog {
     @Column(length = 500) 
     private String description; // 블로그 설명
     
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", nullable = false, unique = true)
     @NonNull
     private User owner;  // 블로그 주인 (각 블로그는 하나의 주인을 가짐)
+    
+    @Column(name = "profile_image")
+    private String profileImage;  // 블로그 프로필 이미지 URL
+
 
 }

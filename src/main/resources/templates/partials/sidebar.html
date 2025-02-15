@@ -23,7 +23,7 @@
             <!-- Blog Author Widget 2 -->
             <div class="blog-author-widget-2 widget-item">
               <div class="d-flex flex-column align-items-center">
-                <img src="/assets/img/userIcon.png" class="rounded-circle flex-shrink-0" alt="">
+                <img th:src="@{${profileImageUrl}}" alt="Profile Image" class="rounded-circle flex-shrink-0">
                 <h4 th:text="${blogOwnerNickname}">nickname</h4>
                 <div class="social-links">
                   <a href="https://x.com/#"><i class="bi bi-twitter-x"></i></a>
