@@ -35,8 +35,6 @@ public class PostController {
     @GetMapping("/create")
     @PreAuthorize("isAuthenticated() and principal.blogId == #blogId") 
     public String showCreatePostForm(@PathVariable Long blogId, Model model, @CurrentSecurityContext SecurityContext securityContext) {
-    	 PrincipalDetails principal = (PrincipalDetails) securityContext.getAuthentication().getPrincipal();
-    	System.out.println(principal.getBlog().getId());
     	List<Category> categories = categoryService.getTopLevelCategories(blogId);
         model.addAttribute("categories", categories);
         model.addAttribute("post", new Post());

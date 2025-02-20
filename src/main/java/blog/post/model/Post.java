@@ -38,4 +38,9 @@ public class Post {
     private Category category;  // 2단계 카테고리 연관 추가
     
     private String imageUrl;
+    
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean isDraft = false;  // 더미 데이터 여부
+
+
 }
