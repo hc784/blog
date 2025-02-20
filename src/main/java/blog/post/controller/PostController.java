@@ -36,8 +36,10 @@ public class PostController {
     @PreAuthorize("isAuthenticated() and principal.blogId == #blogId") 
     public String showCreatePostForm(@PathVariable Long blogId, Model model, @CurrentSecurityContext SecurityContext securityContext) {
     	List<Category> categories = categoryService.getTopLevelCategories(blogId);
+    	Post post = new Post();
+    	postService.createPost(blogId, null, null, blogId)
         model.addAttribute("categories", categories);
-        model.addAttribute("post", new Post());
+        model.addAttribute("post", );
         model.addAttribute("blogId", blogId); // 뷰에서 blogId 활용 가능
         return "post/write";  // post/write.html로 이동
     }
