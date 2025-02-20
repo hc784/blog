@@ -36,5 +36,6 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;  // 2단계 카테고리 연관 추가
-
+    
+    private String imageUrl;
 }
