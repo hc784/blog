@@ -36,23 +36,33 @@ public class PostController {
     @PreAuthorize("isAuthenticated() and principal.blogId == #blogId") 
     public String showCreatePostForm(@PathVariable Long blogId, Model model, @CurrentSecurityContext SecurityContext securityContext) {
     	List<Category> categories = categoryService.getTopLevelCategories(blogId);
-    	Post post = new Post();
-    	postService.createPost(blogId, null, null, blogId)
+    	Post post = postService.createDraft(blogId);
         model.addAttribute("categories", categories);
-        model.addAttribute("post", );
+        model.addAttribute("post", post);
         model.addAttribute("blogId", blogId); // 뷰에서 blogId 활용 가능
         return "post/write";  // post/write.html로 이동
     }
-    // 글 작성 처리
-    @PostMapping({"/create", "/edit/{id}"})
+ // 글 작성 처리
+    @PostMapping("/create")
     public String createPost(@PathVariable Long blogId, PostDto postDTO, 
                              Model model, RedirectAttributes redirectAttributes) {
-        // PostService의 createPost 메서드에 blogId를 전달하도록 수정
-        Post post = postService.createPost(blogId, postDTO.getTitle(), postDTO.getContent(), postDTO.getCategoryId());
+        Post post = postService.updatePost(blogId,postDTO.getId(), postDTO);
         model.addAttribute("post", post);
         redirectAttributes.addFlashAttribute("message", "게시글이 성공적으로 등록되었습니다!");
         return "redirect:/blogs/" + blogId + "/posts/" + post.getId();  // 글 상세 페이지로 리다이렉트
     }
+    
+    
+    // 글 수정 처리
+    @PostMapping("/edit/{id}")
+    public String updatePost(@PathVariable Long blogId, @PathVariable Long id, PostDto postDTO, 
+                             Model model, RedirectAttributes redirectAttributes) {
+        Post post = postService.updatePost(blogId, id, postDTO);
+        model.addAttribute("post", post);
+        redirectAttributes.addFlashAttribute("message", "게시글이 성공적으로 수정되었습니다!");
+        return "redirect:/blogs/" + blogId + "/posts/" + post.getId();  // 글 상세 페이지로 리다이렉트
+    }
+
 //    // 전체 게시글 목록 페이지
 //    @GetMapping
 //    public String getAllPosts(Model model, @RequestParam(value = "category_id", required = false) Long categoryId) {

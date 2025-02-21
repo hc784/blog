@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import blog.post.dto.PostDto;
 import blog.post.model.Post;
 import blog.post.repository.CategoryRepository;
 import blog.post.repository.PostRepository;
@@ -24,17 +26,44 @@ public class PostService {
     }
 
     // blogId를 포함하여 게시글 생성
-    public Post createPost(Long blogId, String title, String content, Long categoryId) {
+ // 게시글 생성 (DTO를 매개변수로 받음)
+    public Post createPost(Long blogId, PostDto postDTO) {
         Post post = new Post();
-        post.setBlogId(blogId);  // Post 엔티티에 blogId 필드가 있어야 함
-        post.setTitle(title);
-        post.setContent(content);
         post.setBlogId(blogId);
-        post.setCategory(categoryRepository.findById(categoryId)
-            .orElseThrow(() -> new EntityNotFoundException("Category not found with ID: " + categoryId)));
+        post.setTitle(postDTO.getTitle());
+        post.setContent(postDTO.getContent());
+        post.setCategory(categoryRepository.findById(postDTO.getCategoryId())
+                .orElseThrow(() -> new EntityNotFoundException("Category not found with ID: " + postDTO.getCategoryId())));
         return postRepository.save(post);
     }
 
+    
+    public Post createDraft(Long blogId) {
+        Post post = new Post();
+        post.setBlogId(blogId);
+        post.setTitle("임시 제목");  // 기본 임시 제목
+        post.setContent("임시 내용입니다. 나중에 내용을 입력해주세요.");  // 기본 임시 내용
+        post.setDraft(true);  // 임시 저장 상태
+
+        // 기본 카테고리 설정 (필요 시 카테고리 ID 수정)
+        post.setCategory(categoryRepository.findById(1L)  // 1L은 기본 카테고리 ID로 가정
+                .orElse(null));  // 카테고리가 없으면 null
+        
+        return postRepository.save(post);
+    }
+    
+    
+ // 게시글 수정 처리 (필요 시 blogId 체크)
+    public Post updatePost(Long blogId, Long id, PostDto postDTO) {
+        Post post = getPostById(blogId, id);
+        post.setTitle(postDTO.getTitle());
+        post.setContent(postDTO.getContent());
+        post.setCategory(categoryRepository.findById(postDTO.getCategoryId())
+                .orElseThrow(() -> new EntityNotFoundException("Category not found with ID: " + postDTO.getCategoryId())));
+        post.setDraft(false);
+        return postRepository.save(post);
+    }
+    
     // 전체 게시글 조회 (blogId 조건 추가)
     public Page<Post> getPaginatedPosts(Long blogId, int page, int size) {
         int maxSize = Math.min(size, 50);
