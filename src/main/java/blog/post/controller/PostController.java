@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,8 +43,9 @@ public class PostController {
     }
  // 글 작성 처리
     @PostMapping("/create")
-    public String createPost(@PathVariable Long blogId, PostDto postDTO, 
+    public String createPost(@PathVariable Long blogId,@RequestParam("postId") Long postId, PostDto postDTO, 
                              Model model, RedirectAttributes redirectAttributes) {
+    	postDTO.setId(postId);
         Post post = postService.updatePost(blogId,postDTO.getId(), postDTO);
         model.addAttribute("post", post);
         redirectAttributes.addFlashAttribute("message", "게시글이 성공적으로 등록되었습니다!");
@@ -100,10 +100,17 @@ public class PostController {
         int startPage = Math.max(0, (page / blockSize) * blockSize);
         int endPage = Math.min(startPage + blockSize - 1, postPage.getTotalPages() - 1);
         endPage = endPage == -1 ? 0 : endPage;
+        
+        List<Post> postList = postPage.getContent();
+        // HTML 태그 제거
+        for (Post post : postList ) {
+        	 post.setContent(removeHtmlTags(post.getContent()));
+        }
+       
 
         model.addAttribute("blogId", blogId);
         model.addAttribute("categories", categories);
-        model.addAttribute("posts", postPage);
+        model.addAttribute("posts", postList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", postPage.getTotalPages());
         model.addAttribute("pageSize", size);
@@ -142,5 +149,10 @@ public class PostController {
     public String deletePost(@PathVariable Long blogId, @PathVariable Long id) {
         postService.deletePost(blogId, id);
         return "redirect:/blogs/" + blogId + "/posts";  // 목록 페이지로 리다이렉트
+    }
+ // HTML 태그 제거하는 메서드
+    private String removeHtmlTags(String content) {
+        if (content == null) return "";
+        return content.replaceAll("<[^>]*>", ""); // 정규식으로 HTML 태그 제거
     }
 }

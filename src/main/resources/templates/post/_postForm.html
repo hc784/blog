@@ -50,4 +50,7 @@
     <button type="submit" class="btn btn-primary">Publish Post</button>
   </div>
 
+ <input type="hidden" id="content" name="content" th:field="*{content}">
+<input type="hidden" id="blogId" th:value="${blogId}">
+<input type="hidden" name = "postId" id="postId" th:value="${post.id}">
 </form>

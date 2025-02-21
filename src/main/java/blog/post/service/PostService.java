@@ -41,14 +41,7 @@ public class PostService {
     public Post createDraft(Long blogId) {
         Post post = new Post();
         post.setBlogId(blogId);
-        post.setTitle("임시 제목");  // 기본 임시 제목
-        post.setContent("임시 내용입니다. 나중에 내용을 입력해주세요.");  // 기본 임시 내용
         post.setDraft(true);  // 임시 저장 상태
-
-        // 기본 카테고리 설정 (필요 시 카테고리 ID 수정)
-        post.setCategory(categoryRepository.findById(1L)  // 1L은 기본 카테고리 ID로 가정
-                .orElse(null));  // 카테고리가 없으면 null
-        
         return postRepository.save(post);
     }
     

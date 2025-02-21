@@ -17,10 +17,10 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = true, length = 255)
     private String title;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = true, columnDefinition = "LONGTEXT")
     private String content;
 
     private Long blogId;  // 소속된 블로그
@@ -34,7 +34,7 @@ public class Post {
     private LocalDateTime updatedAt = LocalDateTime.now();
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id", nullable = true)
     private Category category;  // 2단계 카테고리 연관 추가
     
     private String imageUrl;

@@ -53,9 +53,18 @@
                         </div>
                       </div>
 
-                      <p th:text="${post.content}">
-                        Post content goes here...
-                      </p>
+<p th:text="${#strings.replace(post.content, '<[^>]+>', '')}" class="text-preview"></p>
+
+<style>
+.text-preview {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;  /* 최대 2줄까지만 표시 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 넘치는 부분 ... 표시 */
+    white-space: normal;
+}
+</style>
 
                       <hr>
 

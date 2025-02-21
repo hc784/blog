@@ -62,7 +62,7 @@ public class BlogService {
             try {
                 // 저장할 디렉토리 (프로젝트 내 resources/static/uploads/profile/)
                 String uploadDir = "uploads/profile/";
-                Path uploadPath = Paths.get("src/main/resources/static/" + uploadDir);
+                Path uploadPath = Paths.get("C:/" + uploadDir);
                 if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
                 }

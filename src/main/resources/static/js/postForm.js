@@ -189,7 +189,7 @@ const editorConfig = {
 		]
 	},
 	initialData:
-		'<h2>Congratulations on setting up CKEditor 5! 🎉</h2>\n<p>\n\tYou\'ve successfully created a CKEditor 5 project. This powerful text editor\n\twill enhance your application, enabling rich text editing capabilities that\n\tare customizable and easy to use.\n</p>\n<h3>What\'s next?</h3>\n<ol>\n\t<li>\n\t\t<strong>Integrate into your app</strong>: time to bring the editing into\n\t\tyour application. Take the code you created and add to your application.\n\t</li>\n\t<li>\n\t\t<strong>Explore features:</strong> Experiment with different plugins and\n\t\ttoolbar options to discover what works best for your needs.\n\t</li>\n\t<li>\n\t\t<strong>Customize your editor:</strong> Tailor the editor\'s\n\t\tconfiguration to match your application\'s style and requirements. Or\n\t\teven write your plugin!\n\t</li>\n</ol>\n<p>\n\tKeep experimenting, and don\'t hesitate to push the boundaries of what you\n\tcan achieve with CKEditor 5. Your feedback is invaluable to us as we strive\n\tto improve and evolve. Happy editing!\n</p>\n<h3>Helpful resources</h3>\n<ul>\n\t<li>📝 <a href="https://portal.ckeditor.com/checkout?plan=free">Trial sign up</a>,</li>\n\t<li>📕 <a href="https://ckeditor.com/docs/ckeditor5/latest/installation/index.html">Documentation</a>,</li>\n\t<li>⭐️ <a href="https://github.com/ckeditor/ckeditor5">GitHub</a> (star us if you can!),</li>\n\t<li>🏠 <a href="https://ckeditor.com">CKEditor Homepage</a>,</li>\n\t<li>🧑‍💻 <a href="https://ckeditor.com/ckeditor-5/demo/">CKEditor 5 Demos</a>,</li>\n</ul>\n<h3>Need help?</h3>\n<p>\n\tSee this text, but the editor is not starting up? Check the browser\'s\n\tconsole for clues and guidance. It may be related to an incorrect license\n\tkey if you use premium features or another feature-related requirement. If\n\tyou cannot make it work, file a GitHub issue, and we will help as soon as\n\tpossible!\n</p>\n',
+		'',
 	language: 'ko',
 	licenseKey: LICENSE_KEY,
 	link: {
@@ -228,69 +228,41 @@ const editorConfig = {
 	}
 };
 
-ClassicEditor.create(document.querySelector('#editor'), editorConfig);
+/*ClassicEditor.create(document.querySelector('#editor'), editorConfig);*/
 
-
-class MyUploadAdapter {
-    constructor(loader, blogId, postId) {
-        this.loader = loader;
-        this.blogId = blogId;
-        this.postId = postId;
-    }
-
-    upload() {
-        return this.loader.file.then(file => new Promise((resolve, reject) => {
-            const formData = new FormData();
-            formData.append("file", file);
-            formData.append("postId", this.postId);  // 게시글 ID 추가
-
-            fetch(`/blogs/${this.blogId}/posts/${this.postId}/upload-image`, {
-                method: "POST",
-                body: formData,
-                headers: {
-                    "X-CSRF-TOKEN": document.querySelector("meta[name='_csrf']").content, // CSRF 보호
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.url) {
-                    resolve({ default: data.url });
-                } else {
-                    reject("Upload failed");
-                }
-            })
-            .catch(error => reject(error));
-        }));
-    }
-
-    abort() {
-        console.log("Upload aborted.");
-    }
-}
-
-function CustomUploadAdapterPlugin(editor, blogId, postId) {
-    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-        return new MyUploadAdapter(loader, blogId, postId);
+document.addEventListener("DOMContentLoaded", function () {
+    const blogId = document.querySelector("#blogId").value;  // 블로그 ID 가져오기
+    const postId = document.querySelector("#postId").value;  // 게시글 ID 가져오기
+	let editorInstance;
+	const contentInput = document.querySelector("#content"); // Hidden input
+    // Simple Upload Adapter 설정 추가 (동적 URL 생성)
+    editorConfig.simpleUpload = {
+        uploadUrl: `/blogs/${blogId}/posts/${postId}/upload-image`,
+		method : "POST",
+        // 필요 시 헤더 추가 가능 (예: CSRF 토큰)
+/*        headers: {
+			withCredentials: false,
+          //"X-CSRF-TOKEN": document.querySelector("meta[name='_csrf']").content
+		  "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundarylTMBUUyXqgLqmAdj"
+        }*/
     };
-}
+	
 
-// CKEditor 초기화
-function initializeEditor(blogId, postId) {
-    ClassicEditor
-        .create(document.querySelector("#editor"), {
-            extraPlugins: [editor => CustomUploadAdapterPlugin(editor, blogId, postId)],
-        })
+    ClassicEditor.create(document.querySelector('#editor'), editorConfig)
         .then(editor => {
-            console.log("Editor is ready!", editor);
+			editorInstance = editor;
+            // 기존 글 수정 시 CKEditor에 기존 content 값 넣기
+            if (contentInput.value) {
+                editor.setData(contentInput.value);
+            }
+			// 폼 제출 시 CKEditor 내용 저장
+	         document.querySelector("form").addEventListener("submit", function () {
+	             contentInput.value = editorInstance.getData();
+	         });
+		  
+
         })
         .catch(error => {
             console.error("Error initializing editor:", error);
         });
-}
-
-// 페이지가 로드될 때 CKEditor 초기화
-document.addEventListener("DOMContentLoaded", function () {
-    const blogId = document.querySelector("#blogId").value;  // 블로그 ID 가져오기
-    const postId = document.querySelector("#postId").value;  // 게시글 ID 가져오기
-    initializeEditor(blogId, postId);
 });

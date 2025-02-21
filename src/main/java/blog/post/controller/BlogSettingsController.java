@@ -43,6 +43,7 @@ public class BlogSettingsController {
                                  @RequestParam String nickname,
                                  @RequestParam(value = "profileImage", required = false) MultipartFile profileImage,
                                  Model model) {
+    
         blogService.updateBlogSettings(blogId, title, description, nickname, profileImage);
         return "redirect:/blogs/" + blogId + "/settings";
     }
