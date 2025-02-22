@@ -70,6 +70,7 @@
                 <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1"
                 onclick="location.href='/oauth2/authorization/kakao'">
                   <img src="img/kakao.png" alt="Twitter Login" class="img-fluid rounded-circle" style="width: 25px; height: 25px;">
+                  </button>
               </div>
 
               <p class="text-center">or:</p>
@@ -90,42 +91,42 @@
               <div class="row mb-4">
                 <div class="col-md-6 d-flex justify-content-center">
                   <!-- Checkbox -->
-                  <div class="form-check mb-3 mb-md-0">
+<!--                   <div class="form-check mb-3 mb-md-0">
                     <input class="form-check-input" type="checkbox" value="" id="loginCheck" checked />
                     <label class="form-check-label" for="loginCheck"> Remember me </label>
-                  </div>
+                  </div> -->
                 </div>
 
-                <div class="col-md-6 d-flex justify-content-center">
-                  <!-- Simple link -->
+            <!--     <div class="col-md-6 d-flex justify-content-center">
+                  Simple link
                   <a href="#!">Forgot password?</a>
-                </div>
+                </div> -->
               </div>
 
               <!-- Submit button -->
               <button type="submit" data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Sign in</button>
 			</form>
               <!-- Register buttons -->
-              <div class="text-center">
+<!--               <div class="text-center">
                 <p>Not a member? <a href="#!">Register</a></p>
-              </div>
+              </div> -->
           </div>
           <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
             <form th:action="@{/register}" method="post">
               <div class="text-center mb-3">
                 <p>Sign up with:</p>
-                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-                  <i class="fab fa-facebook-f"></i>
+                              <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1"
+                onclick="location.href='/oauth2/authorization/naver'">
+                  <img src="img/naver.png" alt="Twitter Login" class="img-fluid rounded-circle" style="width: 25px; height: 25px;">
                 </button>
-                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-                  <i class="fab fa-google"></i>
+                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1"
+                  onclick="location.href='/oauth2/authorization/google'">
+                  <img src="img/google.png" alt="Twitter Login" class="img-fluid rounded-circle" style="width: 25px; height: 25px;">
                 </button>
-                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-                  <i class="fab fa-twitter"></i>
-                </button>
-                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-                  <i class="fab fa-github"></i>
-                </button>
+                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1"
+                onclick="location.href='/oauth2/authorization/kakao'">
+                  <img src="img/kakao.png" alt="Twitter Login" class="img-fluid rounded-circle" style="width: 25px; height: 25px;">
+                  </button>
               </div>
 
               <p class="text-center">or:</p>

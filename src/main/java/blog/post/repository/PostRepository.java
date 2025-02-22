@@ -26,27 +26,42 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     
     List<Post> findByCategoryId(Long categoryId);
     
-    @Query("SELECT p FROM Post p WHERE p.category.id = :categoryId OR p.category.parent.id = :categoryId")
-    List<Post> findPostsByCategoryOrChildren(Long categoryId);
-    
-    // 특정 카테고리 또는 자식 카테고리 포함한 게시글 페이징 조회
-    @Query("SELECT p FROM Post p WHERE p.category.id = :categoryId OR p.category.parent.id = :categoryId")
-    Page<Post> findPostsByCategoryOrChildren(Long categoryId, Pageable pageable);
-    
+	/*
+	 * @Query("SELECT p FROM Post p WHERE p.category.id = :categoryId OR p.category.parent.id = :categoryId"
+	 * ) List<Post> findPostsByCategoryOrChildren(Long categoryId);
+	 * 
+	 * // 특정 카테고리 또는 자식 카테고리 포함한 게시글 페이징 조회
+	 * 
+	 * @Query("SELECT p FROM Post p WHERE p.category.id = :categoryId OR p.category.parent.id = :categoryId"
+	 * ) Page<Post> findPostsByCategoryOrChildren(Long categoryId, Pageable
+	 * pageable);
+	 */
     // 블로그별, 카테고리 또는 자식 카테고리 조건을 함께 처리하는 메서드 (JPQL 또는 QueryDSL 활용)
-    @Query("SELECT p FROM Post p WHERE p.blogId = :blogId AND (p.category.id = :categoryId OR p.category.parent.id = :categoryId)")
+    @Query("SELECT p FROM Post p " +
+    	       "WHERE p.blogId = :blogId " +
+    	       "AND (p.category.id = :categoryId OR p.category.parent.id = :categoryId) " +
+    	       "AND p.isDraft = false")
     Page<Post> findPostsByBlogIdAndCategoryOrChildren(@Param("blogId") Long blogId,
                                                       @Param("categoryId") Long categoryId,
                                                       Pageable pageable);
     
     // 🔹 제목 또는 내용에서 하나의 키워드로 검색 (대소문자 구분 없이 검색)
-    Page<Post> findByBlogIdAndTitleContainingIgnoreCaseOrBlogIdAndContentContainingIgnoreCase(
-            Long blogId, String keyword, Long blogId2, String keyword2, Pageable pageable);
+    @Query("SELECT p FROM Post p " +
+    	       "WHERE p.blogId = :blogId " +
+    	       "AND p.isDraft = false " +
+    	       "AND (LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+    	       "OR LOWER(p.content) LIKE LOWER(CONCAT('%', :keyword, '%')))")
+    	Page<Post> searchPostsByBlogIdAndKeyword(
+    	        @Param("blogId") Long blogId,
+    	        @Param("keyword") String keyword,
+    	        Pageable pageable);
     
     int countByCategoryIdInAndBlogId(List<Long> categoryIds, Long blogId);
+    
     Page<Post> findByBlogId(Long blogId, Pageable pageable);
+    Page<Post> findByBlogIdAndIsDraftFalse(Long blogId, Pageable pageable);
     
     Optional<Post> findByIdAndBlogId(Long id, Long blogId);
     
-    List<Post> findTop5ByBlogIdOrderByCreatedAtDesc(Long blogId);
+    List<Post> findTop5ByBlogIdAndIsDraftFalseOrderByCreatedAtDesc(Long blogId);
 }

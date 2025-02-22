@@ -8,7 +8,7 @@
   <div th:replace="~{partials/head}"></div>
 </head>
 <body>
-  <div th:replace="~{partials/header}"></div>
+  <div th:replace="~{partials/header}"></div> 
 
   <main class="main">
     <div class="container">
@@ -18,7 +18,7 @@
           <h1 class="mb-2 mb-lg-0">블로그 설정</h1>
           <nav class="breadcrumbs">
             <ol>
-              <li><a th:href="@{/}">Home</a></li>
+              <li><a th:href="@{/blogs}">Home</a></li>
               <li class="current">설정</li>
             </ol>
           </nav>
@@ -64,6 +64,5 @@
     </div>
   </main>
 
-  <div th:replace="~{partials/footer}"></div>
 </body>
 </html>

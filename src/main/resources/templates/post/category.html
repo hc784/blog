@@ -19,7 +19,7 @@
         <h1 class="mb-2 mb-lg-0">Category</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="/blogs">Home</a></li>
             <li class="current">Categories</li>
           </ol>
         </nav>
@@ -39,21 +39,23 @@
                     <div class="post-img position-relative overflow-hidden">
                       <!-- 이미지 추가 가능 -->
                     </div>
-                    <span class="post-date" th:text="${#temporals.format(post.createdAt, 'yy-MM-dd')}">December 12</span>
-                    <div class="post-content d-flex flex-column">
+<!--                     <span class="post-date" th:text="${#temporals.format(post.createdAt, 'yy-MM-dd')}">December 12</span>
+ -->                    <div class="post-content d-flex flex-column">
                       <h3 class="post-title" th:text="${post.title}">Post Title</h3>
 
                       <div class="meta d-flex align-items-center">
-                        <div class="d-flex align-items-center">
+<!--                         <div class="d-flex align-items-center">
                           <i class="bi bi-person"></i> <span class="ps-2">John Doe</span>
                         </div>
                         <span class="px-3 text-black-50">/</span>
                         <div class="d-flex align-items-center">
                           <i class="bi bi-folder2"></i> <span class="ps-2">Politics</span>
-                        </div>
-                      </div>
-
-<p th:text="${#strings.replace(post.content, '<[^>]+>', '')}" class="text-preview"></p>
+                        </div> -->
+                        <div class="d-flex align-items-center">
+                          <i class="bi bi-clock"></i> <span class="ps-2" th:text="${#temporals.format(post.createdAt, 'yy-MM-dd')}">December 12</span>
+                        </div> 
+                     </div>
+<p th:text="${post.content}" class="text-preview"></p>
 
 <style>
 .text-preview {

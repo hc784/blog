@@ -8,6 +8,7 @@ import blog.post.service.PostService;
 import blog.security.security.PrincipalDetails;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContext;
@@ -150,6 +151,14 @@ public class PostController {
         postService.deletePost(blogId, id);
         return "redirect:/blogs/" + blogId + "/posts";  // 목록 페이지로 리다이렉트
     }
+    
+    @ResponseBody
+    @PostMapping("/{postId}/delete")
+    public ResponseEntity<Void> deleteUnsubmittedPost(@PathVariable Long blogId, @PathVariable Long postId) {
+        postService.deletePost(blogId,postId);
+        return ResponseEntity.ok().build();
+    }
+    
  // HTML 태그 제거하는 메서드
     private String removeHtmlTags(String content) {
         if (content == null) return "";

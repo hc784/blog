@@ -18,7 +18,7 @@
         <h1 class="mb-2 mb-lg-0">Single Post</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="/blogs">Home</a></li>
             <li class="current">Single Post</li>
           </ol>
         </nav>
@@ -44,10 +44,10 @@
 
                 <div class="meta-top">
                   <ul>
-                    <li class="d-flex align-items-center" ><i class="bi bi-person"></i> <a href="blog-details.html">John Doe</a></li>
-                    <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-details.html"><time th:datetime="${#temporals.format(post.createdAt, 'yyyy-MM-dd')}" 
-           th:text="${#temporals.format(post.createdAt, 'yy-MM-dd')}">Jan 1, 2022</time></a></li>
-                    <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="blog-details.html">12 Comments</a></li>
+                    <!-- <li class="d-flex align-items-center" ><i class="bi bi-person"></i> <a href="blog-details.html">John Doe</a></li> -->
+                    <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <time th:datetime="${#temporals.format(post.createdAt, 'yyyy-MM-dd')}" 
+           th:text="${#temporals.format(post.createdAt, 'yy-MM-dd')}">Jan 1, 2022</time></li>
+                    <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <span id="comment-count">0</span> &nbsp;comment</li> 
                   </ul>
                 </div><!-- End meta top -->
 
@@ -55,7 +55,7 @@
 					blank
                 </div><!-- End post content -->
 
-                <div class="meta-bottom">
+              <!--   <div class="meta-bottom">
                   <i class="bi bi-folder"></i>
                   <ul class="cats">
                     <li><a href="#">Business</a></li>
@@ -67,7 +67,7 @@
                     <li><a href="#">Tips</a></li>
                     <li><a href="#">Marketing</a></li>
                   </ul>
-                </div><!-- End meta bottom -->
+                </div>End meta bottom -->
 				
 				
 				 <!-- Edit and Delete Buttons -->
@@ -91,7 +91,7 @@
 <!-- Blog Comments Section -->
 <section id="blog-comments" class="blog-comments section">
   <div class="container">
-    <h4 class="comments-count">댓글 <span id="comment-count">0</span></h4>
+    <h4 class="comments-count">댓글 <span id="comment-count2">0</span></h4>
     <!-- 댓글 목록이 표시될 영역 (기존 ul 대신 div 사용) -->
     <div id="commentList">
       <!-- JavaScript로 동적으로 댓글 항목을 추가합니다. -->
@@ -102,8 +102,6 @@
 <!-- Comment Form Section (댓글 작성 폼) -->
 <section id="comment-form" class="comment-form section">
   <div class="container">
-    <h4>댓글 작성</h4>
-    <p>필수 항목은 * 표시되어 있습니다.</p>
     <!-- 게시글 ID를 숨김 필드로 저장 (Thymeleaf로 값 채워짐) -->
     <input type="hidden" id="postId" th:value="${post.id}">
     <form id="commentForm">
@@ -165,8 +163,10 @@
       .then(comments => {
         const commentList = document.getElementById("commentList");
         const commentCount = document.getElementById("comment-count");
+        const commentCount2 = document.getElementById("comment-count2");
         commentList.innerHTML = "";
         commentCount.innerText = comments.length;
+        commentCount2.innerText = comments.length;
 
      // 댓글 목록 불러오기 (GET 요청) 내 각 댓글 생성 부분
         comments.forEach(comment => {

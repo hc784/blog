@@ -12,6 +12,8 @@ import blog.post.model.Post;
 import blog.post.repository.CategoryRepository;
 import blog.post.repository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
+
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -61,7 +63,7 @@ public class PostService {
     public Page<Post> getPaginatedPosts(Long blogId, int page, int size) {
         int maxSize = Math.min(size, 50);
         Pageable pageable = PageRequest.of(page, maxSize, Sort.by("createdAt").descending());
-        return postRepository.findByBlogId(blogId, pageable);  // blogId를 이용해 조회
+        return postRepository.findByBlogIdAndIsDraftFalse(blogId, pageable);  // blogId를 이용해 조회
     }
     
     // 특정 카테고리(및 자식 카테고리 포함) 게시글 조회 (blogId 조건 추가)
@@ -91,17 +93,38 @@ public class PostService {
     // 게시글 삭제 (blogId 조건 추가)
     public void deletePost(Long blogId, Long id) {
         Post post = getPostById(blogId, id);
+        deletePostImages(blogId, id);
         postRepository.delete(post);
     }
     
     // 🔹 제목 + 내용 하나의 검색어로 검색 (구분 없이 검색)
     public Page<Post> searchPosts(Long blogId, String keyword, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return postRepository.findByBlogIdAndTitleContainingIgnoreCaseOrBlogIdAndContentContainingIgnoreCase(
-                blogId, keyword, blogId, keyword, pageable);
+        return postRepository.searchPostsByBlogIdAndKeyword(
+                blogId, keyword, pageable);
     }
     
     public List<Post> getRecentPosts(Long blogId) {
-        return postRepository.findTop5ByBlogIdOrderByCreatedAtDesc(blogId);
+        return postRepository.findTop5ByBlogIdAndIsDraftFalseOrderByCreatedAtDesc(blogId);
+    }
+    
+    private void deletePostImages(Long blogId, Long postId) {
+        String folderPath = "C:/uploads/posts/" + blogId + "/";  // 저장된 폴더 경로
+        File folder = new File(folderPath);
+
+        if (folder.exists() && folder.isDirectory()) {
+            File[] files = folder.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.getName().startsWith(postId + "_")) { // 📌 해당 게시글의 이미지만 삭제
+                        if (file.delete()) {
+                            System.out.println("🗑️ 삭제됨: " + file.getName());
+                        } else {
+                            System.err.println("🚨 삭제 실패: " + file.getName());
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -43,3 +43,8 @@ application.yml
 # Ignore profile-specific configurations
 application-*.properties
 application-*.yml
+
+# AWS credentials 폴더 제외
+~/.aws/
+.aws/
+.aws

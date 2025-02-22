@@ -1,0 +1,105 @@
+/* 페이지 타이틀 영역 스타일 */
+.page-title {
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+}
+.title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.page-title h1 {
+    margin: 0;
+    font-size: 32px;
+    color: #333;
+    font-weight: 600;
+}
+.breadcrumbs ol {
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 8px;
+    font-size: 14px;
+}
+.breadcrumbs ol li a {
+    color: #007BFF;
+    text-decoration: none;
+}
+.breadcrumbs ol li.current {
+    color: #555;
+}
+
+/* 설정 폼 컨테이너 */
+.settings-form {
+    background: #fafafa;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* 폼 그룹 */
+.form-group {
+    margin-bottom: 20px;
+}
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+}
+
+/* 입력 필드 스타일 */
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.form-control:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    outline: none;
+}
+
+/* 프로필 이미지 영역 */
+.profile-img-container {
+    margin-top: 10px;
+    text-align: center;
+}
+.profile-img-container img {
+    max-width: 150px;
+    border-radius: 50%;
+    border: 3px solid #ddd;
+    padding: 5px;
+    transition: transform 0.3s, border-color 0.3s;
+}
+.profile-img-container img:hover {
+    transform: scale(1.05);
+    border-color: #007BFF;
+}
+
+/* 버튼 스타일 */
+.btn-group {
+    margin-top: 20px;
+}
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+.btn:hover {
+    background: linear-gradient(135deg, #0056b3, #003f7f);
+    transform: scale(1.02);
+}
+
+
