@@ -11,6 +11,7 @@ import blog.post.dto.PostDto;
 import blog.post.model.Post;
 import blog.post.repository.CategoryRepository;
 import blog.post.repository.PostRepository;
+import blog.s3.service.S3Service;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.io.File;
@@ -21,10 +22,11 @@ public class PostService {
     
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
-    
-    public PostService(PostRepository postRepository, CategoryRepository categoryRepository) {
+    private final S3Service s3Service;
+    public PostService(PostRepository postRepository, CategoryRepository categoryRepository, S3Service s3Service) {
         this.postRepository = postRepository;
         this.categoryRepository = categoryRepository;
+        this.s3Service = s3Service;
     }
 
     // blogId를 포함하여 게시글 생성
@@ -109,22 +111,16 @@ public class PostService {
     }
     
     private void deletePostImages(Long blogId, Long postId) {
-        String folderPath = "C:/uploads/posts/" + blogId + "/";  // 저장된 폴더 경로
-        File folder = new File(folderPath);
-
-        if (folder.exists() && folder.isDirectory()) {
-            File[] files = folder.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (file.getName().startsWith(postId + "_")) { // 📌 해당 게시글의 이미지만 삭제
-                        if (file.delete()) {
-                            System.out.println("🗑️ 삭제됨: " + file.getName());
-                        } else {
-                            System.err.println("🚨 삭제 실패: " + file.getName());
-                        }
-                    }
-                }
-            }
-        }
+		/*
+		 * String folderPath = "C:/uploads/posts/" + blogId + "/"; // 저장된 폴더 경로 File
+		 * folder = new File(folderPath);
+		 * 
+		 * if (folder.exists() && folder.isDirectory()) { File[] files =
+		 * folder.listFiles(); if (files != null) { for (File file : files) { if
+		 * (file.getName().startsWith(postId + "_")) { // 📌 해당 게시글의 이미지만 삭제 if
+		 * (file.delete()) { System.out.println("🗑️ 삭제됨: " + file.getName()); } else {
+		 * System.err.println("🚨 삭제 실패: " + file.getName()); } } } } }
+		 */
+    	s3Service.deletePostImages(blogId, postId);
     }
 }

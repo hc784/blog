@@ -46,15 +46,21 @@
 </body>
 
 <script>
+let postSaved = false; // 게시글 저장 여부 플래그
+
 window.addEventListener("beforeunload", function(event) {
-    // 게시글 ID 가져오기 (post 객체가 있다면 ID를 가져옴)
-    let postId = document.getElementById("postId")?.value; 
+    let postId = document.getElementById("postId")?.value;
     let blogId = document.getElementById("blogId")?.value;
 
-    if (postId) {
-        // API 호출 (Fetch 비동기 요청)
+    // 게시글이 저장되지 않은 경우에만 삭제 요청 실행
+    if (!postSaved && postId) {
         navigator.sendBeacon(`/blogs/${blogId}/posts/${postId}/delete`);
     }
+});
+
+// 게시글 등록 버튼 클릭 시 플래그 업데이트
+document.getElementById("postForm").addEventListener("submit", function() {
+    postSaved = true;
 });
 </script>
 

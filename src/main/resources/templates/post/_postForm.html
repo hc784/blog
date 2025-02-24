@@ -1,4 +1,4 @@
-<form action="#" 
+<form id = "postForm" action="#" 
       th:action="@{${isEdit} ? '/blogs/' + ${blogId} + '/posts/edit/' + ${post.id} : '/blogs/' + ${blogId} + '/posts/create'}"
       th:object="${post}" 
       method="post">
