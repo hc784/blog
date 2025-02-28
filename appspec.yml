@@ -13,11 +13,11 @@ permissions:
 
 hooks:
   BeforeInstall:
-    - location: deploy/deploy/scripts/unzip.sh
+    - location: unzip.sh
       timeout: 60
       runas: ubuntu 
 
   ApplicationStart:
-    - location: deploy/deploy/scripts/start.sh
+    - location: start.sh
       timeout: 60
       runas: ubuntu  
