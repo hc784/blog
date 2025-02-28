@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/ubuntu
+cd /home/ubuntu/deploy
 
 echo "Stopping existing application..."
 sudo pkill -f 'java -jar' || true

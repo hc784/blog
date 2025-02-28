@@ -37,6 +37,8 @@ jobs:
         cp build/libs/myblog-0.0.1-SNAPSHOT.jar deploy/app.jar
         cp appspec.yml deploy/
         cp scripts/start.sh deploy/
+        cp scripts/unzip.sh deploy/
+        
         zip -r deploy.zip deploy/
         aws s3 cp deploy.zip s3://${{ secrets.AWS_S3_BUCKET}}/deploy.zip
 
