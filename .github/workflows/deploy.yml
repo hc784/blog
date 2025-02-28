@@ -34,7 +34,7 @@ jobs:
     - name: S3에 업로드
       run: |
         mkdir deploy
-        cp build/libs/*.jar deploy/app.jar
+        cp build/libs/myblog-0.0.1-SNAPSHOT.jar deploy/app.jar
         cp appspec.yml deploy/
         cp scripts/start.sh deploy/
         zip -r deploy.zip deploy/
