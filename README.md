@@ -4,7 +4,7 @@
 Spring Boot, JPA, Thymeleaf 기반의 웹 애플리케이션으로, 회원가입한 유저가 자신의 블로그를 생성하고 관리할 수 있는 기능을 제공합니다.
 
 ## 📅 개발 기간
-**2024.01.18 ~ 2024.02.28**
+**2025.01.18 ~ 2025.02.28**
 
 ## 🛠 기술 스택
 - **Backend:** Spring Boot, Spring Data JPA, Spring Security  
