@@ -8,7 +8,7 @@ Spring Boot, JPA, Thymeleaf 기반의 웹 애플리케이션으로, 회원가입
 
 ## 🛠 기술 스택
 - **Backend:** Spring Boot, Spring Data JPA, Spring Security  
-- **Frontend:** Thymeleaf, BootStrap, HTML, CSS, JavaScript (Vanilla JS)  
+- **Frontend:** Thymeleaf, BootStrap, HTML, CSS, JavaScript 
 - **Database:** MySQL (AWS RDS)  
 - **Build Tool:** Gradle  
 - **Deployment:** AWS (EC2, S3, CodeDeploy), Github Action  
