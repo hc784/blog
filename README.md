@@ -1,4 +1,4 @@
-# 📌 Spring Boot, JPA, Thymeleaf 기반 개인 블로그 프로젝트
+# 📌 블로그 개인 프로젝트
 
 ## 📝 프로젝트 소개
 Spring Boot, JPA, Thymeleaf 기반의 웹 애플리케이션으로, 회원가입한 유저가 자신의 블로그를 생성하고 관리할 수 있는 기능을 제공합니다.
