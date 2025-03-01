@@ -73,6 +73,7 @@ Spring Boot, JPA, Thymeleaf 기반의 웹 애플리케이션으로, 회원가입
 - 프로필 사진을 **서버의 로컬 폴더**에 저장
 
 ### 🔹 로그인/회원가입 페이지
+![Image](https://github.com/user-attachments/assets/a921c445-b0f0-4224-91e7-7149272b18c3)
 - **MDB BootStrap 템플릿** 사용
 - **OAuth 로그인 및 일반 로그인 기능 제공**
 
