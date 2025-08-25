@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import blog.s3.service.FileStorageService;
 import blog.s3.service.S3Service;
 
 @RestController
@@ -25,11 +26,12 @@ import blog.s3.service.S3Service;
 public class PostImageController {
 
 	private final String UPLOAD_DIR = "C:/uploads/posts/";
-    private final S3Service s3Service;
+    private final FileStorageService fileStorageService; // ❗️ 인터페이스 타입으로 변경
 
-    public PostImageController(S3Service s3Service) {
-        this.s3Service = s3Service;
+    public PostImageController(FileStorageService fileStorageService) { // ❗️ 인터페이스 타입으로 변경
+        this.fileStorageService = fileStorageService;
     }
+
 	/*
 	 * @PostMapping("/upload-image") public ResponseEntity<Map<String, String>>
 	 * uploadImage(@PathVariable Long blogId,
@@ -69,12 +71,10 @@ public class PostImageController {
             // S3에 저장할 파일 키 생성
             String fileKey = "blogs/" + blogId + "/posts/" + postId + "/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
 
-            // S3 업로드
-            s3Service.uploadFile(fileKey, file.getBytes());
+            String fileUrl = fileStorageService.uploadFile(fileKey, file.getBytes());
 
-            // CKEditor에 반환할 URL (Presigned URL이 아닌 API 호출 주소)
             Map<String, String> response = new HashMap<>();
-            response.put("url", "/s3/image?key=" + fileKey);  // 서버 GET API 호출
+            response.put("url", fileUrl);
 
             return ResponseEntity.ok(response);
         } catch (IOException e) {

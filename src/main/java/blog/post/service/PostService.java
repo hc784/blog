@@ -11,7 +11,8 @@ import blog.post.dto.PostDto;
 import blog.post.model.Post;
 import blog.post.repository.CategoryRepository;
 import blog.post.repository.PostRepository;
-import blog.s3.service.S3Service;
+import blog.s3.service.FileStorageService;
+
 import jakarta.persistence.EntityNotFoundException;
 
 import java.io.File;
@@ -22,11 +23,11 @@ public class PostService {
     
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
-    private final S3Service s3Service;
-    public PostService(PostRepository postRepository, CategoryRepository categoryRepository, S3Service s3Service) {
+    private final FileStorageService fileStorageService;
+    public PostService(PostRepository postRepository, CategoryRepository categoryRepository, FileStorageService fileStorageService) {
         this.postRepository = postRepository;
         this.categoryRepository = categoryRepository;
-        this.s3Service = s3Service;
+        this.fileStorageService = fileStorageService;
     }
 
     // blogId를 포함하여 게시글 생성
@@ -121,6 +122,6 @@ public class PostService {
 		 * (file.delete()) { System.out.println("🗑️ 삭제됨: " + file.getName()); } else {
 		 * System.err.println("🚨 삭제 실패: " + file.getName()); } } } } }
 		 */
-    	s3Service.deletePostImages(blogId, postId);
+    	fileStorageService.deletePostImages(blogId, postId);
     }
 }

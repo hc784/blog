@@ -1,5 +1,6 @@
 package blog.s3.service;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import blog.s3.AwsS3Properties;
@@ -24,7 +25,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class S3Service {
+@Profile("prod")
+public class S3Service implements FileStorageService {
 
     private final S3Client s3Client;
     private final S3Presigner s3Presigner;
@@ -39,6 +41,7 @@ public class S3Service {
     /**
      * 바이트 배열을 이용한 업로드 (이미지 등)
      */
+    @Override
     public String uploadFile(String key, byte[] data) {
     	   // S3에 업로드하면서 Public 읽기 권한 부여
         s3Client.putObject(
@@ -50,7 +53,7 @@ public class S3Service {
         );
 
         // Public URL 반환
-        return key;
+        return "/s3/image?key=" + key;
     }
     
     
@@ -76,6 +79,7 @@ public class S3Service {
     /**
      * 특정 게시글(Post)의 이미지 삭제 (S3)
      */
+    @Override
     public void deletePostImages(Long blogId, Long postId) {
         // 📌 postId 폴더 경로 설정
         String folderPrefix = "blogs/" + blogId + "/posts/" + postId + "/";

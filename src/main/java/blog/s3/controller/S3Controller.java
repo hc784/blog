@@ -1,5 +1,6 @@
 package blog.s3.controller;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.net.URL;
 
 @RestController
 @RequestMapping("/s3")
+@Profile("prod")
 public class S3Controller {
 
     private final S3Service s3Service;

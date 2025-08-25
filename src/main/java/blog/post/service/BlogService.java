@@ -3,6 +3,7 @@ package blog.post.service;
 
 import blog.post.model.Blog;
 import blog.post.repository.BlogRepository;
+import blog.s3.service.FileStorageService;
 import blog.security.model.User;
 import blog.security.repository.UserRepository;
 
@@ -20,10 +21,12 @@ public class BlogService {
 
     private final BlogRepository blogRepository;
     private final UserRepository userRepository;
-
-    public BlogService(BlogRepository blogRepository, UserRepository userRepository) {
+    private final FileStorageService fileStorageService;
+    
+    public BlogService(BlogRepository blogRepository, UserRepository userRepository, FileStorageService fileStorageService) {
         this.blogRepository = blogRepository;
         this.userRepository = userRepository;
+        this.fileStorageService = fileStorageService;
     }
 
     @Transactional(readOnly = true)
@@ -51,44 +54,25 @@ public class BlogService {
     @Transactional
     public void updateBlogSettings(Long blogId, String title, String description, String nickname, MultipartFile profileImage) {
         Blog blog = getBlogById(blogId);
-        // 블로그 제목, 설명 업데이트
         blog.setTitle(title);
         blog.setDescription(description);
-        // 블로그 소유자의 닉네임 업데이트
         blog.getOwner().setNickname(nickname);
         
-        // 프로필 이미지 파일이 업로드된 경우 처리
+        // ❗️ 프로필 이미지 처리 로직 변경
         if (profileImage != null && !profileImage.isEmpty()) {
             try {
-                // 저장할 디렉토리 (프로젝트 내 resources/static/uploads/profile/)
-                String uploadDir = "uploads/profile/";
-                Path uploadPath = Paths.get("C:/" + uploadDir);
-                if (!Files.exists(uploadPath)) {
-                    Files.createDirectories(uploadPath);
-                }
-
-                // 파일명 생성 (UUID 기반)
-                String originalFilename = profileImage.getOriginalFilename();
-                String extension = "";
-                if (originalFilename != null && originalFilename.contains(".")) {
-                    extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-                }
-                String newFilename = UUID.randomUUID().toString() + extension;
-
-                // 파일 저장
-                Path filePath = uploadPath.resolve(newFilename);
-                Files.copy(profileImage.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-                // 저장된 파일의 URL (예: /uploads/profile/{newFilename})
-                String imageUrl = "/" + uploadDir + newFilename;
+                // blogs/{blogId}/profile/{UUID}_{fileName} 형식의 키 생성
+                String fileKey = "blogs/" + blogId + "/profile/" + UUID.randomUUID().toString() + "_" + profileImage.getOriginalFilename();
+                
+                // ❗️ FileStorageService를 사용하여 파일 업로드
+                String imageUrl = fileStorageService.uploadFile(fileKey, profileImage.getBytes());
+                
                 blog.setProfileImage(imageUrl);
             } catch (IOException e) {
                 throw new RuntimeException("프로필 이미지 저장에 실패했습니다.", e);
             }
         }
-        // 블로그 업데이트 (유저 정보도 cascade 처리되었다면 함께 저장됨)
+        
         blogRepository.save(blog);
     }
 }
-
-

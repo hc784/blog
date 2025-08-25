@@ -49,7 +49,7 @@ public class CommentService {
 
     @Transactional(readOnly = true)
     public List<Comment> getCommentsByPost(Long postId) {
-        return commentRepository.findByPostId(postId);
+        return commentRepository.findByPostIdAndParentIsNull(postId);
     }
 
     @Transactional

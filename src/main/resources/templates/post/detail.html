@@ -170,7 +170,7 @@
 
      // 댓글 목록 불러오기 (GET 요청) 내 각 댓글 생성 부분
         comments.forEach(comment => {
-          // 새로운 댓글 블록(div.comment) 생성 (제공된 디자인 구조 참고)
+          // 새로운 댓글 블록(div.comment) 생성
           const commentDiv = document.createElement("div");
           commentDiv.className = "comment";
           commentDiv.setAttribute("data-comment-id", comment.id);
