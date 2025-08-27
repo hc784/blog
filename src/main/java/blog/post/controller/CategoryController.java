@@ -24,7 +24,7 @@ public class CategoryController {
     // 특정 블로그의 카테고리 목록 조회
     @GetMapping
     public String showCategoryList(@PathVariable Long blogId, Model model) {
-        List<Category> categories = categoryService.getTopLevelCategories(blogId);
+        List<Category> categories = categoryService.getCategoriesForSidebar(blogId);
         model.addAttribute("categories", categories);
         model.addAttribute("blogId", blogId);
         return "categories/list";  // Thymeleaf 템플릿 파일 경로
@@ -34,7 +34,7 @@ public class CategoryController {
     @GetMapping("/setting")
     @PreAuthorize("isAuthenticated() and principal.blogId == #blogId") 
     public String listCategories(@PathVariable Long blogId, Model model) {
-        List<Category> categories = categoryService.getTopLevelCategories(blogId);
+        List<Category> categories = categoryService.getCategoriesForSidebar(blogId);
         model.addAttribute("categories", categories);
         model.addAttribute("blogId", blogId);
         return "categories/setting";

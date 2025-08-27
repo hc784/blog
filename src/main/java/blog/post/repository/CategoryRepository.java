@@ -1,5 +1,7 @@
 package blog.post.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import blog.post.model.Category;
 
@@ -8,16 +10,9 @@ import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     
-    // 최상위(부모가 없는) 카테고리 조회
-    List<Category> findByParentIsNull();
 
-    // 특정 부모 카테고리의 자식만 조회
-    List<Category> findByParent(Category parent);
-    
-    List<Category> findByParentIsNullOrderByCategoryOrderAsc();
-    
-    
-    
+	@Query("SELECT c FROM Category c LEFT JOIN FETCH c.children WHERE c.blogId = :blogId AND c.parent IS NULL ORDER BY c.categoryOrder ASC")
+	List<Category> findParentCategoriesWithChildren(@Param("blogId") Long blogId);
     
     
     // 해당 블로그의 최상위 카테고리(부모가 없는)를 정렬 순서대로 조회

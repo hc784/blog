@@ -40,6 +40,10 @@ public class CategoryService {
         return categoryRepository.findByBlogId(blogId);
     }
     
+    public List<Category> getCategoriesForSidebar(Long blogId) {
+        return categoryRepository.findParentCategoriesWithChildren(blogId);
+    }
+
     @Transactional
     public void updateCategories(Long blogId, CategoryRequest request) {
         Map<String, Long> newIdAndIdMapping = new HashMap<>();
