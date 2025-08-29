@@ -1,5 +1,7 @@
 package blog.s3.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,9 @@ import java.util.stream.Collectors;
 @Profile("prod")
 public class S3Service implements FileStorageService {
 
+	 // 1. Logger 객체 생성
+    private static final Logger log = LoggerFactory.getLogger(S3Service.class);
+    
     private final S3Client s3Client;
     private final S3Presigner s3Presigner;
     private final AwsS3Properties awsS3Properties;
@@ -52,12 +57,15 @@ public class S3Service implements FileStorageService {
                 RequestBody.fromBytes(data)
         );
 
-        // Public URL 반환
-        return "/s3/image?key=" + key;
+        return awsS3Properties.getCloudfrontDomain() + "/" + key;
     }
     
     
     public String getPresignedUrl(String key) {
+        // --- 시간 측정 코드 시작 ---
+        long startTime = System.currentTimeMillis();
+        // -------------------------
+        
         // 1️⃣ S3에서 Presigned URL을 생성할 요청을 생성
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                 .bucket(awsS3Properties.getBucket())
@@ -73,6 +81,12 @@ public class S3Service implements FileStorageService {
         // 3️⃣ Presigned URL 생성
         PresignedGetObjectRequest presignedRequest = s3Presigner.presignGetObject(presignRequest);
 
+        // --- 시간 측정 코드 종료 및 로그 출력 ---
+        long endTime = System.currentTimeMillis();
+        log.info("Presigned URL 생성 소요 시간 ({}): {}ms",key, (endTime - startTime));
+        // ------------------------------------
+
+        
         return presignedRequest.url().toString();
     }
     

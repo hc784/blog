@@ -8,9 +8,18 @@ public class AwsS3Properties {
 
     @Value("${custom.aws.s3.bucket}")
     private String bucket;
+    
+
+    @Value("${custom.aws.cloudfront.domain}")
+    private String cloudfrontDomain;
+
 
     public String getBucket() {
         return bucket;
+    }
+    
+    public String getCloudfrontDomain() {
+        return cloudfrontDomain;
     }
     
 }
