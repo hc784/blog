@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import blog.security.model.User;
 
@@ -37,10 +39,16 @@ public class Post {
     @JoinColumn(name = "category_id", nullable = true)
     private Category category;  // 2단계 카테고리 연관 추가
     
-    private String imageUrl;
     
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean isDraft = false;  // 더미 데이터 여부
+    
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostImage> postImages = new ArrayList<>();
+
+    public void addPostImage(PostImage postImage) {
+        this.postImages.add(postImage);
+    }
 
 
 }

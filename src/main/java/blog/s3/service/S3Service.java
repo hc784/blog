@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import blog.s3.AwsS3Properties;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.Delete;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.DeleteObjectsRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
@@ -129,4 +130,25 @@ public class S3Service implements FileStorageService {
         System.out.println("🗑️ 삭제 완료: " + postFiles.size() + "개의 파일");
         postFiles.forEach(file -> System.out.println("  - 삭제됨: " + file.key()));
     }
+    
+    public void deleteFile(String key) {
+        if (key == null || key.isEmpty()) {
+            log.warn("삭제할 파일의 키가 비어있습니다.");
+            return;
+        }
+
+        try {
+            DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
+                    .bucket(awsS3Properties.getBucket())
+                    .key(key)
+                    .build();
+
+            s3Client.deleteObject(deleteObjectRequest);
+            log.info("🗑️ S3 파일 삭제 완료: {}", key);
+        } catch (Exception e) {
+            // 실제 프로덕션 코드에서는 더 구체적인 예외 처리가 필요합니다.
+            log.error("S3 파일 삭제 중 오류 발생. Key: {}", key, e);
+        }
+    }
+
 }

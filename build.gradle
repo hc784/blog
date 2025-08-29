@@ -40,6 +40,7 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'software.amazon.awssdk:s3:2.20.26'
   	/*implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3:3.1.1'*/
+  	implementation 'org.jsoup:jsoup:1.17.2'
 }
 
 tasks.withType(JavaCompile) {
