@@ -35,7 +35,7 @@ public class PostController {
     @GetMapping("/create")
     @PreAuthorize("isAuthenticated() and principal.blogId == #blogId") 
     public String showCreatePostForm(@PathVariable Long blogId, Model model, @CurrentSecurityContext SecurityContext securityContext) {
-    	List<Category> categories = categoryService.getTopLevelCategories(blogId);
+    	List<Category> categories = categoryService.getCategoriesForSidebar(blogId);
     	Post post = postService.createDraft(blogId);
         model.addAttribute("categories", categories);
         model.addAttribute("post", post);
@@ -94,7 +94,7 @@ public class PostController {
             postPage = postService.getPaginatedPostsByCategory(blogId, categoryId, page, size);
         }
 
-        List<Category> categories = categoryService.getTopLevelCategories(blogId);
+        List<Category> categories = categoryService.getCategoriesForSidebar(blogId);
 
         // 🔹 블록 페이징 계산 (예: 5개씩 출력)
         int blockSize = 5;
@@ -136,7 +136,7 @@ public class PostController {
     @GetMapping("/edit/{id}")
     @PreAuthorize("isAuthenticated() and principal.blogId == #blogId") 
     public String showEditForm(@PathVariable Long blogId, @PathVariable Long id, Model model) {
-        List<Category> categories = categoryService.getTopLevelCategories(blogId);
+        List<Category> categories = categoryService.getCategoriesForSidebar(blogId);
         model.addAttribute("categories", categories);
         Post post = postService.getPostById(blogId, id);
         model.addAttribute("post", post);

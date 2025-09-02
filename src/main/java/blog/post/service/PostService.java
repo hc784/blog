@@ -114,7 +114,7 @@ public class PostService {
         postRepository.save(post);
     }
     
-    @Transactional(readOnly = true)
+    @Transactional
     public Post getPostById(Long blogId, Long id) {
         postRepository.incrementViewCount(id);  // 조회수 증가
         // blogId 조건을 추가하여 게시글 조회
