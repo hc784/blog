@@ -3,10 +3,11 @@ package blog.post.dto;
 import blog.post.model.Comment;
 import blog.security.model.User;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 // 클라이언트에게 반환할 댓글 정보 DTO
 @Getter
@@ -16,6 +17,7 @@ public class CommentDto {
     private String content;
     private String author; // 작성자 이름 (로그인/익명 통합)
     private LocalDateTime createdAt;
+    @Setter
     private List<CommentDto> replies; // 답글 목록
 
     // Entity를 DTO로 변환하는 생성자
@@ -33,9 +35,6 @@ public class CommentDto {
         }
         
         this.createdAt = comment.getCreatedAt();
-        // 자식 댓글(답글)도 DTO로 변환하여 리스트에 담는다. (재귀 호출)
-        this.replies = comment.getReplies().stream()
-                .map(CommentDto::new)
-                .collect(Collectors.toList());
+        this.replies = Collections.emptyList(); 
     }
 }

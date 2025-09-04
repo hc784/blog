@@ -2,6 +2,7 @@ package blog.post.service;
 
 import blog.post.dto.CommentDto;
 import blog.post.dto.CommentRequestDto;
+import blog.post.dto.PageResponseDto;
 import blog.post.model.Comment;
 import blog.post.model.Post;
 import blog.post.repository.CommentRepository;
@@ -72,29 +73,38 @@ public class CommentService {
      * 특정 게시글의 댓글 목록 조회 (DTO로 변환)
      */
     @Transactional(readOnly = true)
-    public Page<CommentDto> getCommentsByPost(Long postId, Pageable pageable) {
+    public PageResponseDto<CommentDto> getCommentsByPost(Long postId, Pageable pageable) {
         Page<Comment> parentCommentsPage = commentRepository.findParentCommentsByPostId(postId, pageable);
         List<Comment> parentComments = parentCommentsPage.getContent();
 
-        // if (parentComments.isEmpty()) 블록을 제거해도 아래 로직이 정상적으로 빈 페이지를 처리합니다.
-
-        List<Long> parentIds = parentComments.stream()
-                .map(Comment::getId)
+        List<CommentDto> parentDtos = parentComments.stream()
+                .map(CommentDto::new) // Dto의 정적 팩토리 메소드 사용 (재귀 호출 없음)
                 .collect(Collectors.toList());
 
-        // parentIds가 비어있으면 replies도 비어있게 됩니다.
-        List<Comment> replies = parentIds.isEmpty() ? List.of() : commentRepository.findRepliesByParentIds(parentIds);
+        // 3. 부모 댓글이 있을 경우에만 대댓글을 조회하고 조립합니다.
+        if (!parentDtos.isEmpty()) {
+            List<Long> parentIds = parentComments.stream()
+                                    .map(Comment::getId)
+                                    .collect(Collectors.toList());
+            
+            // 4. 부모 댓글에 속한 모든 자식 댓글(대댓글)을 한 번의 쿼리로 조회합니다.
+            List<Comment> replies = commentRepository.findRepliesByParentIds(parentIds);
+            
+            // 5. 조회한 대댓글들을 부모 ID 기준으로 그룹화하고, DTO로 변환합니다.
+            Map<Long, List<CommentDto>> repliesDtoMap = replies.stream()
+                    .collect(Collectors.groupingBy(
+                        reply -> reply.getParent().getId(),
+                        Collectors.mapping(CommentDto::new, Collectors.toList()) // 대댓글도 DTO로 변환
+                    ));
 
-        Map<Long, List<Comment>> repliesMap = replies.stream()
-                .collect(Collectors.groupingBy(reply -> reply.getParent().getId()));
+            // 6. 부모 DTO에 변환된 자식 DTO 목록을 설정(set)합니다.
+            parentDtos.forEach(parentDto -> parentDto.setReplies(repliesDtoMap.get(parentDto.getId())));
+        }
 
-        parentComments.forEach(parent -> parent.setReplies(repliesMap.getOrDefault(parent.getId(), List.of())));
-        
-        List<CommentDto> dtoList = parentComments.stream()
-                .map(CommentDto::new)
-                .collect(Collectors.toList());
 
-        return new PageImpl<>(dtoList, pageable, parentCommentsPage.getTotalElements());
+        // Page<CommentDto>를 생성한 뒤, 최종적으로 PageResponseDto로 한 번 더 감싸서 반환
+        Page<CommentDto> dtoPage = new PageImpl<>(parentDtos, pageable, parentCommentsPage.getTotalElements());
+        return new PageResponseDto<>(dtoPage);
     }
     
 

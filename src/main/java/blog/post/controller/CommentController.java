@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import blog.post.dto.CommentDto;
 import blog.post.dto.CommentRequestDto;
+import blog.post.dto.PageResponseDto;
 import blog.post.model.Comment;
 import blog.post.service.CommentService;
 import blog.security.model.User;
@@ -40,10 +41,10 @@ public class CommentController {
     }
     
     @GetMapping("/posts/{postId}/comments")
-    public ResponseEntity<Page<CommentDto>> getComments(
+    public ResponseEntity<PageResponseDto<CommentDto>> getComments(
             @PathVariable Long postId,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.ASC) Pageable pageable) {
-        Page<CommentDto> comments = commentService.getCommentsByPost(postId, pageable);
+        PageResponseDto<CommentDto> comments = commentService.getCommentsByPost(postId, pageable);
         return ResponseEntity.ok(comments);
     }
     
